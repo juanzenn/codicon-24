@@ -27,7 +27,7 @@ export default function Menu() {
       </Link>
 
       <ul className="flex justify-center items-center gap-4 py-2">
-        {MENU_ITEMS.map(({ href, label }) => {
+        {MENU_ITEMS.map(({ href, label }, i) => {
           const isSelected = pathname === href;
 
           return (
