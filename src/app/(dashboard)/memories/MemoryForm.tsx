@@ -13,6 +13,7 @@ import { useCreateMemory } from '@/hooks/memories';
 import { useUploadImage } from '@/hooks/useUploadImage';
 import { handleReactQueryError, handleZodError } from '@/lib/error';
 import { toast } from '@/components/ui/use-toast';
+import { useRouter } from 'next/navigation';
 
 const FORM_IDS = {
     MEMORY: "memory",
@@ -28,6 +29,9 @@ type MemoryFormProps = {
 export default function MemoryForm({ familyMembers }: MemoryFormProps) {
     const { uploadImage, isUploading } = useUploadImage();
     const { mutate: createMemory, isPending } = useCreateMemory();
+    const router = useRouter();
+
+    const [isPendingTransition, startTransition] = React.useTransition();
 
     const [form, setForm] = React.useState<MemoryForm>({
         memory: null,
@@ -36,7 +40,7 @@ export default function MemoryForm({ familyMembers }: MemoryFormProps) {
         familyMembers: [],
     });
 
-    const isLoading = isUploading || isPending;
+    const isLoading = isUploading || isPending || isPendingTransition;
 
     const [preview, setPreview] = React.useState<string | ArrayBuffer | null>(null);
     const fileInputRef = React.useRef<HTMLInputElement>(null);
@@ -121,10 +125,15 @@ export default function MemoryForm({ familyMembers }: MemoryFormProps) {
                     variant: 'success',
                     title: 'Memory Added',
                     description: "The memory was added successfuly"
-                })
+                });
+                startTransition(() => {
+                    router.refresh()
+                });
             },
             onError: handleReactQueryError
         })
+
+
     }
 
     return (
