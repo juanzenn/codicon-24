@@ -1,3 +1,4 @@
+import { db } from "@/lib/db";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import NextAuth, { Session, type NextAuthOptions } from "next-auth";
 import Discord from "next-auth/providers/discord";
@@ -9,7 +10,7 @@ export const authConfig: NextAuthOptions = {
       clientSecret: process.env.DISCORD_CLIENT_SECRET!,
     }),
   ],
-  adapter: PrismaAdapter(),
+  adapter: PrismaAdapter(db),
   pages: { signIn: "/login", signOut: "/logout" },
   session: { strategy: "jwt" },
   callbacks: {
