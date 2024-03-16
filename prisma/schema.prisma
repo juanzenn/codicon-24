@@ -54,14 +54,15 @@ model User {
   sessions      Session[]
   familyMembers FamilyMember[]
   memories      Memory[]
+  Album         Album[]
 }
 
 model FamilyMember {
   id String @id @default(cuid())
 
-  parentesque String
-  name        String
-  color       String
+  relationship String
+  name         String
+  color        String
 
   owner    User     @relation(fields: [ownerId], references: [id])
   ownerId  String
@@ -80,4 +81,18 @@ model Memory {
   owner         User           @relation(fields: [ownerId], references: [id])
   ownerId       String
   familyMembers FamilyMember[]
+  albumes       Album[]
+}
+
+model Album {
+  id String @id @default(cuid())
+
+  title       String
+  date        DateTime
+  isArchived  Boolean  @default(false)
+  description String?
+
+  owner    User     @relation(fields: [ownerId], references: [id])
+  ownerId  String
+  memories Memory[]
 }
