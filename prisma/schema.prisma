@@ -62,7 +62,7 @@ model FamilyMember {
 
   relationship String
   name         String
-  color        String
+  color        String?
 
   owner    User     @relation(fields: [ownerId], references: [id])
   ownerId  String
