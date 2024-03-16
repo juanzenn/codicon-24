@@ -8,7 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { CreateAlbumForm } from "@/components/dashboard/albums/create-album-form";
+import { CreateAlbumForm } from "@/components/albums/create-album-form";
 
 export default function AlbumsPage() {
   return (
