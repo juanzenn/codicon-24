@@ -63,6 +63,7 @@ model FamilyMember {
   relationship String
   name         String
   color        String?
+  createdAt    DateTime @default(now())
 
   owner    User     @relation(fields: [ownerId], references: [id])
   ownerId  String

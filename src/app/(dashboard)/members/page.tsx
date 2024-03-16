@@ -9,7 +9,7 @@ export default async function MembersPage() {
 
   const members = await db.familyMember.findMany({
     where: { ownerId: user.id },
-    orderBy: { name: "asc" },
+    orderBy: { createdAt: "desc" },
   });
 
   return (

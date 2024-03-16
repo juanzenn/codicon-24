@@ -158,7 +158,7 @@ export function AddMember() {
               }
             >
               <SelectTrigger>
-                <SelectValue placeholder="Father, Mother..." />
+                <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 {FAMILY_MEMBER_RELATIONSHIPS.map((relationship) => (
