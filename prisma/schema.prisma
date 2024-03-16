@@ -50,6 +50,34 @@ model User {
   email         String?   @unique // Should be set by the auth provider
   emailVerified DateTime?
 
-  accounts Account[]
-  sessions Session[]
+  accounts      Account[]
+  sessions      Session[]
+  familyMembers FamilyMember[]
+  memories      Memory[]
+}
+
+model FamilyMember {
+  id String @id @default(cuid())
+
+  parentesque String
+  name        String
+  color       String
+
+  owner    User     @relation(fields: [ownerId], references: [id])
+  ownerId  String
+  memories Memory[]
+}
+
+model Memory {
+  id String @id @default(cuid())
+
+  title       String
+  date        DateTime
+  isArchived  Boolean  @default(false)
+  description String?
+  fileUrl     String?
+
+  owner         User           @relation(fields: [ownerId], references: [id])
+  ownerId       String
+  familyMembers FamilyMember[]
 }
