@@ -177,6 +177,7 @@ export default function MemoryForm({ familyMembers }: MemoryFormProps) {
                     id={FORM_IDS.DATE}
                     date={form.date}
                     onChange={handleChangeDate}
+                    endDateNow
                 />
             </div>
 
