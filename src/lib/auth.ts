@@ -28,6 +28,17 @@ export const authConfig: NextAuthOptions = {
       return token;
     },
   },
+  events: {
+    createUser: async ({ user }) => {
+      await db.familyMember.create({
+        data: {
+          ownerId: user.id,
+          name: user.name ?? "Myself",
+          relationship: "Myself",
+        },
+      });
+    },
+  },
 };
 
 export const auth = NextAuth(authConfig);

@@ -136,9 +136,9 @@ export function UpdateMember({
 
       <DialogContent className="sm:max-w-[550px]">
         <DialogHeader>
-          <DialogTitle>Add Family Member</DialogTitle>
+          <DialogTitle>Update Family Member</DialogTitle>
           <DialogDescription>
-            Add the relevant details of the family member.
+            Update the details of the family member.
           </DialogDescription>
         </DialogHeader>
 
@@ -157,6 +157,7 @@ export function UpdateMember({
           <div className="grid gap-2">
             <Label htmlFor="relationship">Relationship</Label>
             <Select
+              disabled={form.relationship === "Myself"}
               value={form.relationship}
               onValueChange={(value) =>
                 handleFormValueChange({
@@ -165,11 +166,15 @@ export function UpdateMember({
               }
             >
               <SelectTrigger>
-                <SelectValue placeholder="Father, Mother..." />
+                <SelectValue placeholder="" />
               </SelectTrigger>
               <SelectContent>
                 {FAMILY_MEMBER_RELATIONSHIPS.map((relationship) => (
-                  <SelectItem key={relationship} value={relationship}>
+                  <SelectItem
+                    disabled={relationship === "Myself"}
+                    key={relationship}
+                    value={relationship}
+                  >
                     {relationship}
                   </SelectItem>
                 ))}
@@ -193,7 +198,7 @@ export function UpdateMember({
           <DialogFooter>
             <Button type="submit" disabled={isLoading} className="w-48 gap-4">
               {isLoading && <Loader2 className="animate-spin" />}
-              Create
+              Update
             </Button>
           </DialogFooter>
         </form>

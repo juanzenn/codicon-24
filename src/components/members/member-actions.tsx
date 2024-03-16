@@ -51,7 +51,7 @@ export default function MemberActions({ member }: Props) {
       </UpdateMember>
 
       <Button
-        disabled={isLoading}
+        disabled={isLoading || member.relationship === "Myself"}
         variant="ghost"
         size="icon"
         onClick={() => handleDeleteMember(member.id)}

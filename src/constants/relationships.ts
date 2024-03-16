@@ -1,4 +1,5 @@
 export const FAMILY_MEMBER_RELATIONSHIPS = [
+  "Myself",
   "Father",
   "Mother",
   "Brother",

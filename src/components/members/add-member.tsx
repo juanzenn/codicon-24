@@ -162,7 +162,11 @@ export function AddMember() {
               </SelectTrigger>
               <SelectContent>
                 {FAMILY_MEMBER_RELATIONSHIPS.map((relationship) => (
-                  <SelectItem key={relationship} value={relationship}>
+                  <SelectItem
+                    key={relationship}
+                    value={relationship}
+                    disabled={relationship === "Myself"}
+                  >
                     {relationship}
                   </SelectItem>
                 ))}
