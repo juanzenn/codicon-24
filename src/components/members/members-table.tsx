@@ -29,6 +29,7 @@ const columns: ColumnDef<FamilyMember>[] = [
   {
     id: "id",
     accessorFn: (row) => row,
+    size: 20,
     header: () => <div className="text-center">Actions</div>,
     cell: ({ row }) => {
       return <MemberActions member={row.original} />;

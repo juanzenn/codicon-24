@@ -1,4 +1,4 @@
-import { Plus } from "lucide-react";
+import { CreateAlbumForm } from "@/components/albums/create-album-form";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -8,11 +8,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { CreateAlbumForm } from "@/components/albums/create-album-form";
+import { Plus } from "lucide-react";
 
 export default function AlbumsPage() {
   return (
-    <div>
+    <div className="container">
       <Dialog>
         <DialogTrigger asChild>
           <Button>

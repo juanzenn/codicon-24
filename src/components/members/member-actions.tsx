@@ -39,18 +39,13 @@ export default function MemberActions({ member }: Props) {
   const isLoading = pendingTransition || deletingMember;
 
   return (
-    <div className="text-center">
+    <div className="text-center space-x-4">
       <UpdateMember
         memberId={member.id}
         memberName={member.name}
         memberRelationship={member.relationship}
       >
-        <Button
-          disabled={isLoading}
-          variant="ghost"
-          size="icon"
-          className="h-fit"
-        >
+        <Button disabled={isLoading} variant="ghost" size="icon">
           <Edit2 size={16} />
         </Button>
       </UpdateMember>
@@ -59,8 +54,8 @@ export default function MemberActions({ member }: Props) {
         disabled={isLoading}
         variant="ghost"
         size="icon"
-        className="h-fit"
         onClick={() => handleDeleteMember(member.id)}
+        className="hover:bg-destructive hover:text-destructive-foreground"
       >
         <Trash2 size={16} />
       </Button>
