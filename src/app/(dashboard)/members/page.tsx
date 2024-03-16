@@ -1,4 +1,5 @@
 import { AddMember } from "@/components/members/add-member";
+import MembersTable from "@/components/members/members-table";
 import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/user";
 import { Session } from "next-auth";
@@ -8,6 +9,7 @@ export default async function MembersPage() {
 
   const members = await db.familyMember.findMany({
     where: { ownerId: user.id },
+    orderBy: { name: "asc" },
   });
 
   return (
@@ -21,12 +23,8 @@ export default async function MembersPage() {
         <AddMember />
       </section>
 
-      <section>
-        {members.map((member) => (
-          <div key={member.id}>
-            {member.name} - {member.relationship}
-          </div>
-        ))}
+      <section className="mt-6">
+        <MembersTable members={members} />
       </section>
     </>
   );
