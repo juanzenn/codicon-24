@@ -2,6 +2,12 @@
 const nextConfig = {
   images: {
     unoptimized: true,
+    remotePatterns: [
+      {
+        hostname: "utsf.io",
+        protocol: "https",
+      },
+    ],
   },
 };
 
