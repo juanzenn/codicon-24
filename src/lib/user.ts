@@ -1,3 +1,4 @@
+import { db } from "@/lib/db";
 import { getServerSession } from "next-auth";
 
 /**
