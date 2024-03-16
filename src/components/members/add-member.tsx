@@ -1,5 +1,6 @@
 "use client";
 
+import { MemberForm, memberFormSchema } from "@/app/validation/members";
 import {
   Dialog,
   DialogContent,
@@ -17,18 +18,30 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { FAMILY_MEMBER_RELATIONSHIPS } from "@/constants/relationships";
+import { useCreateMember } from "@/hooks/members";
+import { handleReactQueryError, handleZodError } from "@/lib/error";
+import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { Button } from "../ui/button";
+import { Checkbox } from "../ui/checkbox";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
+import { toast } from "../ui/use-toast";
 
 export function AddMember() {
+  const router = useRouter();
+  const { mutate: createMember, isPending: isCreatingMember } =
+    useCreateMember();
+
+  const [isPendingTransition, startTransition] = React.useTransition();
   const [form, setForm] = React.useState({
     name: "",
     relationship: "",
+    keepAdding: false,
   });
-
   const [otherOption, setOtherOption] = React.useState("");
+  const [open, setOpen] = React.useState(false);
 
   function handleFormValueChange(
     event:
@@ -56,8 +69,59 @@ export function AddMember() {
     setOtherOption(event.target.value);
   }
 
+  function clearForm() {
+    setForm({
+      name: "",
+      relationship: "",
+      keepAdding: false,
+    });
+    setOtherOption("");
+  }
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    // Why React?
+    event.preventDefault();
+
+    const useOtherOption = form.relationship === "Other";
+    const memberBody: MemberForm = {
+      name: form.name,
+      relationship: useOtherOption ? otherOption : form.relationship,
+    };
+
+    const validatedBody = memberFormSchema.safeParse(memberBody);
+    if (!validatedBody.success) {
+      handleZodError(validatedBody.error);
+      return;
+    }
+
+    createMember(validatedBody.data, {
+      onSuccess: () => {
+        toast({
+          variant: "success",
+          description: "The family member has been added successfully.",
+        });
+        startTransition(() => {
+          router.refresh();
+        });
+      },
+      onError: handleReactQueryError,
+    });
+
+    if (form.keepAdding) {
+      clearForm();
+    } else {
+      // Delay the form clearing to allow a smooth transition
+      setTimeout(() => {
+        clearForm();
+      }, 200);
+      setOpen(false);
+    }
+  }
+
+  const isLoading = isCreatingMember || isPendingTransition;
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={() => setOpen(!open)}>
       <DialogTrigger asChild>
         <Button>Add Family Member</Button>
       </DialogTrigger>
@@ -70,7 +134,7 @@ export function AddMember() {
           </DialogDescription>
         </DialogHeader>
 
-        <form className="space-y-6">
+        <form className="space-y-6" onSubmit={handleSubmit}>
           <div className="grid gap-2">
             <Label htmlFor="name">Name</Label>
             <Input
@@ -119,7 +183,25 @@ export function AddMember() {
           )}
 
           <DialogFooter>
-            <Button type="submit">Create</Button>
+            <div className="flex flex-row-reverse items-center gap-2 text-muted-foreground mr-auto">
+              <Label htmlFor="keepAdding">Keep adding members</Label>
+              <Checkbox
+                className="border-muted-foreground"
+                id="keepAdding"
+                checked={form.keepAdding}
+                onCheckedChange={() => {
+                  setForm((prev) => ({
+                    ...prev,
+                    keepAdding: !prev.keepAdding,
+                  }));
+                }}
+              />
+            </div>
+
+            <Button type="submit" disabled={isLoading} className="w-48 gap-4">
+              {isLoading && <Loader2 className="animate-spin" />}
+              Create
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>

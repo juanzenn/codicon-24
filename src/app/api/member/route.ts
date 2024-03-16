@@ -1,5 +1,5 @@
 import { MemberForm } from "@/app/validation/members";
-import { handleApiError } from "@/lib/error";
+import { handleApiError } from "@/lib/error.server";
 import { getCurrentUser } from "@/lib/user";
 import { NextRequest, NextResponse } from "next/server";
 

@@ -1,26 +1,27 @@
-import {
-  PrismaClientInitializationError,
-  PrismaClientKnownRequestError,
-  PrismaClientValidationError,
-} from "@prisma/client/runtime/library";
+import { toast } from "@/components/ui/use-toast";
+import { ZodError } from "zod";
 
-export function handleApiError(error: unknown) {
-  const isDevelopment = process.env.NODE_ENV === "development";
+export function handleReactQueryError(error: Error) {
+  if (process.env.NODE_ENV === "development") {
+    console.error(error);
+  }
 
-  if (!isDevelopment) return "Internal Server Error";
+  toast({
+    variant: "destructive",
+    title: "Server Error",
+    description: "There was an unexpected error. Please try again.",
+  });
+}
 
-  console.log("API Error\n\n");
-  console.log(error);
+export function handleZodError(error: ZodError) {
+  const { errors } = error;
 
-  if (error instanceof PrismaClientInitializationError) {
-    return "Prisma - Initialization Error";
-  } else if (error instanceof PrismaClientKnownRequestError) {
-    return "Prisma - Known Request Error: " + error.message;
-  } else if (error instanceof PrismaClientValidationError) {
-    return "Prisma - Validation Error: " + error.message;
-  } else if (error instanceof Error) {
-    return error.message;
-  } else {
-    return "Internal Server Error";
+  for (let i = 0; i < errors.length; i++) {
+    const { path, message } = errors[i];
+    toast({
+      variant: "destructive",
+      title: "Validation Error",
+      description: message,
+    });
   }
 }
