@@ -31,6 +31,7 @@ const MOCK_MEMBERS: FamilyMember[] = [
     color: "red",
     ownerId: "1",
     relationship: "Father",
+    createdAt: new Date(),
   },
   {
     id: "2",
@@ -38,6 +39,7 @@ const MOCK_MEMBERS: FamilyMember[] = [
     color: "red",
     ownerId: "1",
     relationship: "Mother",
+    createdAt: new Date(),
   },
 ];
 
@@ -67,10 +69,27 @@ export function CreateAlbumForm() {
     }));
   }
 
+  function handleToggleFamilyMember(memberId: string) {
+    if (form.familyMembers.includes(memberId)) {
+      setForm((prevForm) => ({
+        ...prevForm,
+        familyMembers: prevForm.familyMembers.filter((id) => id !== memberId),
+      }));
+      return;
+    }
+
+    setForm((prevForm) => ({
+      ...prevForm,
+      familyMembers: [...prevForm.familyMembers, memberId],
+    }));
+  }
+
   async function handleCreateAlbum(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     console.log("Creating album", form);
   }
+
+  console.log(form.familyMembers);
 
   return (
     <form className="space-y-3" onSubmit={handleCreateAlbum}>
@@ -101,6 +120,8 @@ export function CreateAlbumForm() {
       <div className="space-y-1">
         <Label htmlFor={FORM_IDS.FAMILY_MEMBERS}>Family members</Label>
         <MultipleSelect
+          onSelect={handleToggleFamilyMember}
+          values={form.familyMembers}
           options={MOCK_MEMBERS.map(({ id, name }) => ({
             value: id,
             label: name,
