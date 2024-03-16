@@ -1,7 +1,7 @@
 "use client";
 
-import * as React from "react";
 import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu";
+import * as React from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -32,7 +32,10 @@ export function MultipleSelect({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button className="w-full justify-start bg-accent" variant="outline">
+        <Button
+          className="w-full justify-start bg-accent hover:bg-accent/50"
+          variant="outline"
+        >
           {values
             .map((id) => options.find((option) => option.value === id)?.label)
             .join(", ") || "Select family members"}
