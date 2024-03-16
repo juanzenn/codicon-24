@@ -32,7 +32,7 @@ export function MultipleSelect({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button className="w-full justify-start" variant="outline">
+        <Button className="w-full justify-start bg-accent" variant="outline">
           {values
             .map((id) => options.find((option) => option.value === id)?.label)
             .join(", ") || "Select family members"}
