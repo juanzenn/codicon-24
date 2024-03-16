@@ -1,8 +1,12 @@
 import ImageBook from "@/components/image-book";
-import { Memory } from "@prisma/client";
+import { Memory, Prisma } from "@prisma/client";
 import React from "react";
 
-const ALBUM_IMAGES: Memory[] = [
+const ALBUM_IMAGES: Prisma.MemoryGetPayload<{
+  include: {
+    familyMembers: { select: { name: true } };
+  };
+}>[] = [
   {
     date: new Date(),
     fileUrl: "https://source.unsplash.com/random/?Nature&1",
@@ -11,6 +15,7 @@ const ALBUM_IMAGES: Memory[] = [
     id: "1",
     isArchived: false,
     ownerId: "1",
+    familyMembers: [{ name: "John Doe" }],
   },
   {
     date: new Date(),
@@ -20,6 +25,7 @@ const ALBUM_IMAGES: Memory[] = [
     id: "2",
     isArchived: false,
     ownerId: "1",
+    familyMembers: [{ name: "John Doe" }],
   },
   {
     date: new Date(),
@@ -29,6 +35,7 @@ const ALBUM_IMAGES: Memory[] = [
     id: "3",
     isArchived: false,
     ownerId: "1",
+    familyMembers: [{ name: "John Doe" }],
   },
 ];
 
