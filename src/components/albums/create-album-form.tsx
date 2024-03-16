@@ -1,3 +1,6 @@
+"use client";
+
+import { AlbumForm } from "@/app/validation/albums";
 import { Button } from "@/components/ui/button";
 import { DatePicker } from "@/components/ui/datepicker";
 import { Input } from "@/components/ui/input";
@@ -11,6 +14,8 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { FamilyMember } from "@prisma/client";
+import React from "react";
+import { MultipleSelect } from "../ui/multiple-select";
 
 const FORM_IDS = {
   TITLE: "title",
@@ -36,17 +41,57 @@ const MOCK_MEMBERS: FamilyMember[] = [
   },
 ];
 
-export async function CreateAlbumForm() {
+export function CreateAlbumForm() {
+  const [form, setForm] = React.useState<AlbumForm>({
+    title: "",
+    description: "",
+    date: new Date(),
+    familyMembers: [],
+  });
+
+  function handleChangeInput(
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) {
+    const { name, value } = event.target;
+
+    setForm((prevForm) => ({
+      ...prevForm,
+      [name]: value,
+    }));
+  }
+
+  function handleChangeDate(date?: Date) {
+    setForm((prevForm) => ({
+      ...prevForm,
+      date: date ?? new Date(),
+    }));
+  }
+
+  async function handleCreateAlbum(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    console.log("Creating album", form);
+  }
+
   return (
-    <form className="space-y-3">
+    <form className="space-y-3" onSubmit={handleCreateAlbum}>
       <div className="space-y-1">
         <Label htmlFor={FORM_IDS.TITLE}>Title</Label>
-        <Input placeholder="Family holidays" />
+        <Input
+          id={FORM_IDS.TITLE}
+          name={FORM_IDS.TITLE}
+          placeholder="Family holidays"
+          value={form.title}
+          onChange={handleChangeInput}
+        />
       </div>
 
       <div className="space-y-1">
         <Label htmlFor={FORM_IDS.TITLE}>Description</Label>
         <Textarea
+          id={FORM_IDS.DESCRIPTION}
+          name={FORM_IDS.DESCRIPTION}
+          value={form.description}
+          onChange={handleChangeInput}
           rows={5}
           className="resize-none"
           placeholder="Family holidays"
@@ -55,24 +100,21 @@ export async function CreateAlbumForm() {
 
       <div className="space-y-1">
         <Label htmlFor={FORM_IDS.FAMILY_MEMBERS}>Family members</Label>
-        <Select>
-          <SelectTrigger>
-            <SelectValue placeholder="Select family members" />
-          </SelectTrigger>
-
-          <SelectContent>
-            {MOCK_MEMBERS.map((member) => (
-              <SelectItem key={member.id} value={member.id}>
-                {member.name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <MultipleSelect
+          options={MOCK_MEMBERS.map(({ id, name }) => ({
+            value: id,
+            label: name,
+          }))}
+        />
       </div>
 
       <div className="space-y-1">
         <Label htmlFor={FORM_IDS.DATE}>Date</Label>
-        <DatePicker />
+        <DatePicker
+          id={FORM_IDS.DATE}
+          date={form.date}
+          onChange={handleChangeDate}
+        />
       </div>
 
       <div className="flex justify-end">
