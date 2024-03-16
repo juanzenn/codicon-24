@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import NextAuth, { Session, type NextAuthOptions } from "next-auth";
+import NextAuth, { type NextAuthOptions } from "next-auth";
 import Discord from "next-auth/providers/discord";
 
 export const authConfig: NextAuthOptions = {
