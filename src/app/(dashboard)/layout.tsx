@@ -1,28 +1,19 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "../globals.css";
 import Menu from "@/components/Menu";
+import { getCurrentUser } from "@/lib/user";
+import { redirect } from "next/navigation";
 
-const inter = Inter({ subsets: ["latin"] });
-
-export const metadata: Metadata = {
-    title: "Heritage Keeper",
-    description: "Keep your memories alive",
-};
-
-export default function RootLayout({
-    children,
+export default async function DashboardLayout({
+  children,
 }: Readonly<{
-    children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
-    return (
-        <html lang="en">
-            <body className={inter.className}>
-                <Menu />
-                <main className="container">
-                    {children}
-                </main>
-            </body>
-        </html>
-    );
+  const user = await getCurrentUser();
+  if (!user) redirect("/login");
+
+  return (
+    <>
+      <Menu />
+      {children}
+    </>
+  );
 }
