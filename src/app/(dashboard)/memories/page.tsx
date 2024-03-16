@@ -1,7 +1,7 @@
 export default function MemoriesPage() {
-    return (
-        <div>
-            <h1>Hello Page</h1>
-        </div>
-    );
+  return (
+    <div>
+      <h1>Hello Page</h1>
+    </div>
+  );
 }
