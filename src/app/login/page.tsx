@@ -10,8 +10,8 @@ export default async function LoginPage() {
   }
 
   return (
-    <div className="flex justify-center items-center">
-      <section className="bg-card text-card-foreground p-6 rounded shadow w-[580px]">
+    <div className="flex justify-center items-center h-dvh">
+      <section className="bg-card text-card-foreground p-6 rounded shadow-md w-[580px]">
         <h1 className="text-4xl font-bold tracking-tight text-center mb-2">
           Login
         </h1>
