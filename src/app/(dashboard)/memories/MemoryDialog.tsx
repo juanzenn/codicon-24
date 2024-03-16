@@ -23,14 +23,14 @@ export default function MemoryDialog({ familyMembers }: MemberDialogProps) {
             <DialogTrigger asChild>
                 <Button>Upload Memory</Button>
             </DialogTrigger>
-            <DialogContent className="max-h-[750px]">
+            <DialogContent className="max-h-[750px] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle>Add Memory</DialogTitle>
                     <DialogDescription>
                         Tag your loved ones and add a description of the memory you're uploading
                     </DialogDescription>
                 </DialogHeader>
-                <MemoryForm />
+                <MemoryForm familyMembers={familyMembers} />
             </DialogContent>
         </Dialog>
     )

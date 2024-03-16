@@ -42,7 +42,7 @@ export function MultipleSelect({
         </Button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent align="start" className="w-96">
+      <DropdownMenuContent align="start" className="w-96 overflow-x-hidden">
         {options.map((option) => (
           <DropdownMenuCheckboxItem
             key={option.value}

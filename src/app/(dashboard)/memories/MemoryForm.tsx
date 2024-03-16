@@ -7,28 +7,35 @@ import { Label } from '@/components/ui/label';
 import { Trash } from 'lucide-react';
 import { DatePicker } from '@/components/ui/datepicker';
 import { DialogFooter } from '@/components/ui/dialog';
-
-type MemoryForm = {
-    title: string;
-    description: string;
-    date: Date;
-    familyMembers: FamilyMember[]
-}
+import { MultipleSelect } from '@/components/ui/multiple-select';
+import { memoryFormSchema, type MemoryForm } from '@/app/validation/memories';
+import { useCreateMemory } from '@/hooks/memories';
+import { useUploadImage } from '@/hooks/useUploadImage';
+import { handleReactQueryError, handleZodError } from '@/lib/error';
+import { toast } from '@/components/ui/use-toast';
 
 const FORM_IDS = {
-    TITLE: "title",
+    MEMORY: "memory",
     DESCRIPTION: "description",
-    FAMILY_MEMBERS: "family-members",
+    FAMILY_MEMBERS: "family_members",
     DATE: "date",
 };
 
-export default function MemoryForm() {
+type MemoryFormProps = {
+    familyMembers: FamilyMember[]
+}
+
+export default function MemoryForm({ familyMembers }: MemoryFormProps) {
+    const { uploadImage } = useUploadImage();
+    const { mutate: createMemory } = useCreateMemory();
+
     const [form, setForm] = React.useState<MemoryForm>({
-        title: "",
+        memory: null,
         description: "",
         date: new Date(),
         familyMembers: [],
     });
+
     const [preview, setPreview] = React.useState<string | ArrayBuffer | null>(null);
     const fileInputRef = React.useRef<HTMLInputElement>(null);
 
@@ -38,11 +45,28 @@ export default function MemoryForm() {
             const reader = new FileReader();
             reader.onloadend = () => {
                 setPreview(reader.result);
+                setForm((prevForm) => ({
+                    ...prevForm,
+                    memory: files[0]
+                }))
             };
             reader.readAsDataURL(files[0]);
         }
     }
 
+    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+        setForm((prevForm) => ({
+            ...prevForm,
+            [e.target.name]: e.target.value
+        }))
+    }
+
+    function handleClearImage() {
+        setPreview(null);
+        if (fileInputRef.current) {
+            fileInputRef.current.value = '';
+        }
+    };
 
     function handleChangeDate(date?: Date) {
         setForm((prevForm) => ({
@@ -51,26 +75,69 @@ export default function MemoryForm() {
         }));
     }
 
-    const handleClearImage = () => {
-        setPreview(null);
-        if (fileInputRef.current) {
-            fileInputRef.current.value = '';
+    function handleToggleFamilyMember(memberId: string) {
+        if (form.familyMembers.includes(memberId)) {
+            setForm((prevForm) => ({
+                ...prevForm,
+                familyMembers: prevForm.familyMembers.filter((id) => id !== memberId),
+            }));
+            return;
         }
-    };
+
+        setForm((prevForm) => ({
+            ...prevForm,
+            familyMembers: [...prevForm.familyMembers, memberId],
+        }));
+    }
+
+    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+
+        const validatedBody = memoryFormSchema.safeParse({
+
+        });
+
+        if (!validatedBody.success) {
+            handleZodError(validatedBody.error);
+            return;
+        }
+
+        if (!form.memory) {
+            return;
+        }
+
+        const file_url = await uploadImage(form.memory);
+        const memoryBody = {
+            file_url,
+            date: form.date,
+            description: form.description,
+            familyMembers: form.familyMembers
+        }
+
+        createMemory(memoryBody, {
+            onSuccess: () => {
+                toast({
+                    variant: 'success',
+                    title: 'Memory Added',
+                    description: "The memory was added successfuly"
+                })
+            },
+            onError: handleReactQueryError
+        })
+    }
 
     return (
-        <form className="space-y-6">
-
+        <form className="space-y-6" onSubmit={handleSubmit}>
             {preview && (<div className="flex justify-center">
                 <img src={preview as string} className="w-[250px] h-auto" alt="File preview" />
             </div>)}
 
             <div className="grid grid-cols-3 items-end gap-2">
                 <div className="col-span-2">
-                    <Label htmlFor={FORM_IDS.DATE}>Image</Label>
+                    <Label htmlFor={FORM_IDS.MEMORY}>Image</Label>
                     <Input
-                        id="memory"
-                        name="memory"
+                        id={FORM_IDS.MEMORY}
+                        name={FORM_IDS.MEMORY}
                         type="file"
                         ref={fileInputRef}
                         onChange={handleImagePrevisualization}
@@ -82,11 +149,24 @@ export default function MemoryForm() {
             </div>
 
             <div className="space-y-1">
-                <Label htmlFor={FORM_IDS.DATE}>Description</Label>
+                <Label htmlFor={FORM_IDS.DESCRIPTION}>Description</Label>
                 <Input
-                    id="memory"
-                    name="memory"
+                    id={FORM_IDS.DESCRIPTION}
+                    name={FORM_IDS.DESCRIPTION}
                     type="text"
+                    onChange={handleChange}
+                />
+            </div>
+
+            <div className="space-y-1">
+                <Label htmlFor={FORM_IDS.FAMILY_MEMBERS}>Family members</Label>
+                <MultipleSelect
+                    onSelect={handleToggleFamilyMember}
+                    values={form.familyMembers}
+                    options={familyMembers.map(({ id, name, relationship }) => ({
+                        value: id,
+                        label: name,
+                    }))}
                 />
             </div>
 
@@ -100,7 +180,7 @@ export default function MemoryForm() {
             </div>
 
             <DialogFooter>
-                <Button type="submit">Create</Button>
+                <Button type="submit">Create Memory</Button>
             </DialogFooter>
         </form>
     )

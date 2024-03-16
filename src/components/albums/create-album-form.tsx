@@ -30,7 +30,6 @@ const MOCK_MEMBERS: FamilyMember[] = [
     name: "John Doe",
     color: "red",
     ownerId: "1",
-    createdAt: new Date(),
     relationship: "Father",
     createdAt: new Date(),
   },
@@ -41,7 +40,6 @@ const MOCK_MEMBERS: FamilyMember[] = [
     ownerId: "1",
     createdAt: new Date(),
     relationship: "Mother",
-    createdAt: new Date(),
   },
 ];
 
