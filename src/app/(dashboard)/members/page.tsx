@@ -1,5 +1,6 @@
 import { AddMember } from "@/components/members/add-member";
 import MembersTable from "@/components/members/members-table";
+import PageHeader from "@/components/page-header";
 import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/user";
 import { Session } from "next-auth";
@@ -14,10 +15,10 @@ export default async function MembersPage() {
 
   return (
     <div className="container">
-      <header className="mt-10">
-        <h1 className="font-bold text-4xl mb-2">Family Members</h1>
-        <p>Add the people you care about.</p>
-      </header>
+      <PageHeader
+        title="Family Members"
+        description="Add the people you care about."
+      />
 
       <section className="mt-6">
         <AddMember />
