@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation";
 import { Button } from "./ui/button";
 
 const MENU_ITEMS = [
-  { href: "/members", label: "Members" },
+  { href: "/members", label: "Family" },
   { href: "/albums", label: "Albums" },
   { href: "/memories", label: "Memories" },
   { href: "/proximity", label: "Proximity" },
