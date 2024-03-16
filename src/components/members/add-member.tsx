@@ -69,11 +69,11 @@ export function AddMember() {
     setOtherOption(event.target.value);
   }
 
-  function clearForm() {
+  function clearForm(keepAdding = false) {
     setForm({
       name: "",
       relationship: "",
-      keepAdding: false,
+      keepAdding,
     });
     setOtherOption("");
   }
@@ -103,19 +103,19 @@ export function AddMember() {
         startTransition(() => {
           router.refresh();
         });
+
+        if (form.keepAdding) {
+          clearForm(true);
+        } else {
+          // Delay the form clearing to allow a smooth transition
+          setTimeout(() => {
+            clearForm(false);
+          }, 200);
+          setOpen(false);
+        }
       },
       onError: handleReactQueryError,
     });
-
-    if (form.keepAdding) {
-      clearForm();
-    } else {
-      // Delay the form clearing to allow a smooth transition
-      setTimeout(() => {
-        clearForm();
-      }, 200);
-      setOpen(false);
-    }
   }
 
   const isLoading = isCreatingMember || isPendingTransition;

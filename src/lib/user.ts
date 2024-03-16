@@ -6,5 +6,16 @@ import { getServerSession } from "next-auth";
  */
 export async function getCurrentUser() {
   const session = await getServerSession();
-  return session?.user;
+  if (!session || !session.user.email) return null;
+
+  const userDb = await db.user.findUnique({
+    where: { email: session.user.email },
+  });
+
+  if (!userDb) return null;
+
+  return {
+    ...session.user,
+    id: userDb?.id,
+  };
 }
