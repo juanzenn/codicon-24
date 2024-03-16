@@ -5,7 +5,7 @@ function prismaSingleton() {
 }
 
 declare global {
-  var db: undefined | ReturnType<typeof prismaSingleton>;
+  var db: ReturnType<typeof prismaSingleton>;
 }
 
 export const db = globalThis.db ?? prismaSingleton();
