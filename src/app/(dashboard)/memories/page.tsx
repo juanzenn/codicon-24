@@ -2,8 +2,7 @@ import { getCurrentUser } from "@/lib/user";
 import MemoryDialog from "./MemoryDialog";
 import Image from "next/image";
 import { FamilyMember } from "@prisma/client";
-import { Edit2, Trash2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import MemoriesGrid from "./MemoriesGrid";
 
 export default async function MemoriesPage() {
   const user = await getCurrentUser();
@@ -36,23 +35,7 @@ export default async function MemoriesPage() {
       <section className="my-6">
         <MemoryDialog familyMembers={familyMembers} />
       </section>
-      <div className="grid grid-cols-4 gap-8">
-        {memories.map((memory) => (
-          <div key={memory.id} className="w-full mb-4 relative">
-            <div className="absolute transition-all cursor-pointer hover:bg-slate-900 text-white opacity-0 hover:opacity-75 w-full h-full bg-red flex items-center justify-center gap-2">
-              <h2>{memory.description}</h2>
-              {/* <Button variant={"ghost"}>
-                <Trash2 size={32} />
-              </Button>
-              <Button variant={"ghost"}>
-                <Edit2 size={32} />
-              </Button> */}
-
-            </div>
-            <Image className="object-cover w-full h-[300px]" src={memory.fileUrl ?? "https://placehold.co/150x150"} alt={memory.description ?? ""} width={150} height={150} />
-          </div>
-        ))}
-      </div>
+      <MemoriesGrid memories={memories} />
     </div>
   );
 }

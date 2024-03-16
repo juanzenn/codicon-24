@@ -31,7 +31,7 @@ export default function Menu() {
           const isSelected = pathname === href;
 
           return (
-            <Link href={href}>
+            <Link key={`${label}-${i}`} href={href}>
               <li
                 key={label}
                 className={cn(

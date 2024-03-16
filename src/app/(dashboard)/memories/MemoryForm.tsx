@@ -132,8 +132,6 @@ export default function MemoryForm({ familyMembers }: MemoryFormProps) {
             },
             onError: handleReactQueryError
         })
-
-
     }
 
     return (
