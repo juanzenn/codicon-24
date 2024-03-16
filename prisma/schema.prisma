@@ -73,11 +73,11 @@ model FamilyMember {
 model Memory {
   id String @id @default(cuid())
 
-  title       String
   date        DateTime
   isArchived  Boolean  @default(false)
   description String?
   fileUrl     String?
+  createdAt   DateTime @default(now())
 
   owner         User           @relation(fields: [ownerId], references: [id])
   ownerId       String
@@ -92,6 +92,7 @@ model Album {
   date        DateTime
   isArchived  Boolean  @default(false)
   description String?
+  createdAt   DateTime @default(now())
 
   owner    User     @relation(fields: [ownerId], references: [id])
   ownerId  String

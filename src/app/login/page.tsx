@@ -6,7 +6,7 @@ export default async function LoginPage() {
   const user = await getCurrentUser();
 
   if (user) {
-    redirect("/albums");
+    redirect("/dashboard");
   }
 
   return (
