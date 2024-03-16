@@ -4,7 +4,7 @@ import { FamilyMember } from '@prisma/client';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { Trash } from 'lucide-react';
+import { Loader2, Trash } from 'lucide-react';
 import { DatePicker } from '@/components/ui/datepicker';
 import { DialogFooter } from '@/components/ui/dialog';
 import { MultipleSelect } from '@/components/ui/multiple-select';
@@ -26,8 +26,8 @@ type MemoryFormProps = {
 }
 
 export default function MemoryForm({ familyMembers }: MemoryFormProps) {
-    const { uploadImage } = useUploadImage();
-    const { mutate: createMemory } = useCreateMemory();
+    const { uploadImage, isUploading } = useUploadImage();
+    const { mutate: createMemory, isPending } = useCreateMemory();
 
     const [form, setForm] = React.useState<MemoryForm>({
         memory: null,
@@ -35,6 +35,8 @@ export default function MemoryForm({ familyMembers }: MemoryFormProps) {
         date: new Date(),
         familyMembers: [],
     });
+
+    const isLoading = isUploading || isPending;
 
     const [preview, setPreview] = React.useState<string | ArrayBuffer | null>(null);
     const fileInputRef = React.useRef<HTMLInputElement>(null);
@@ -93,20 +95,12 @@ export default function MemoryForm({ familyMembers }: MemoryFormProps) {
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
-        const validatedBody = memoryFormSchema.safeParse({
-
-        });
-
-        if (!validatedBody.success) {
-            handleZodError(validatedBody.error);
-            return;
-        }
-
         if (!form.memory) {
             return;
         }
 
         const file_url = await uploadImage(form.memory);
+
         const memoryBody = {
             file_url,
             date: form.date,
@@ -114,7 +108,14 @@ export default function MemoryForm({ familyMembers }: MemoryFormProps) {
             familyMembers: form.familyMembers
         }
 
-        createMemory(memoryBody, {
+        const validatedBody = memoryFormSchema.safeParse(memoryBody);
+
+        if (!validatedBody.success) {
+            handleZodError(validatedBody.error);
+            return;
+        }
+
+        createMemory(validatedBody.data, {
             onSuccess: () => {
                 toast({
                     variant: 'success',
@@ -144,7 +145,7 @@ export default function MemoryForm({ familyMembers }: MemoryFormProps) {
                     />
                 </div>
                 <div>
-                    <Button disabled={preview == null} type="button" onClick={handleClearImage} className="w-full"><Trash className="mr-2" /> Clear Image</Button>
+                    <Button disabled={(preview == null) || isLoading} type="button" onClick={handleClearImage} className="w-full"><Trash className="mr-2" /> Clear Image</Button>
                 </div>
             </div>
 
@@ -180,7 +181,11 @@ export default function MemoryForm({ familyMembers }: MemoryFormProps) {
             </div>
 
             <DialogFooter>
-                <Button type="submit">Create Memory</Button>
+                <Button disabled={isLoading} type="submit">
+                    {isLoading ? (<Loader2 className="animate-spin mr-2" />) : (<span>
+                        Create Memory
+                    </span>)}
+                </Button>
             </DialogFooter>
         </form>
     )
