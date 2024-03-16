@@ -1,7 +1,6 @@
 import { AlbumForm } from "@/app/validation/albums";
 import { handleApiError } from "@/lib/error.server";
 import { getCurrentUser } from "@/lib/user";
-import { Prisma } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {

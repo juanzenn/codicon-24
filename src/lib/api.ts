@@ -19,9 +19,9 @@ export const API_ROUTES = {
     update: (id: string) => `/member/${id}`,
     delete: (id: string) => `/member/${id}`,
   },
-  memories: {
-    create: "/memories",
-    update: (id: string) => `/memories/${id}`,
-    delete: (id: string) => `/memories/${id}`,
+  albums: {
+    create: "/albums",
+    update: (id: string) => `/albums/${id}`,
+    delete: (id: string) => `/albums/${id}`,
   },
 };

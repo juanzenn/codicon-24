@@ -15,11 +15,17 @@ import { cn } from "@/lib/utils";
 
 type DatePickerProps = {
   id: string;
+  endDateNow?: boolean;
   date?: Date;
   onChange: (date?: Date) => void;
 };
 
-export function DatePicker({ date, id, onChange }: DatePickerProps) {
+export function DatePicker({
+  date,
+  id,
+  endDateNow,
+  onChange,
+}: DatePickerProps) {
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -40,6 +46,7 @@ export function DatePicker({ date, id, onChange }: DatePickerProps) {
           mode="single"
           selected={date}
           onSelect={onChange}
+          toDate={endDateNow ? new Date() : undefined}
           initialFocus
         />
       </PopoverContent>

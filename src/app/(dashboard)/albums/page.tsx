@@ -1,41 +1,27 @@
 import { CreateAlbumForm } from "@/components/albums/create-album-form";
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Plus } from "lucide-react";
+import PageHeader from "@/components/page-header";
 
-export default function AlbumsPage() {
+import { getCurrentUser } from "@/lib/user";
+import { Session } from "next-auth";
+
+export default async function AlbumsPage() {
+  const user = (await getCurrentUser()) as Session["user"];
+
+  const familyMembers = await db.familyMember.findMany({
+    where: { ownerId: user.id },
+    orderBy: { createdAt: "desc" },
+  });
+
   return (
     <div className="container">
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button>
-            <Plus size={24} className="mr-2" />
-            <span>Create album</span>
-          </Button>
-        </DialogTrigger>
+      <PageHeader
+        title="Albums"
+        description="Create snapshots of your family for future generations."
+      />
 
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Create new album</DialogTitle>
-            <DialogDescription>
-              <span>
-                Take a snapshot of your favorite memories with your family and
-                save it into an
-              </span>
-              <span className="text-primary font-bold"> album.</span>
-            </DialogDescription>
-          </DialogHeader>
-
-          <CreateAlbumForm />
-        </DialogContent>
-      </Dialog>
+      <section className="mt-6">
+        <CreateAlbumForm familyMembers={familyMembers} />
+      </section>
     </div>
   );
 }
