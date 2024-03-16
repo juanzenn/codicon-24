@@ -1,3 +1,13 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": [
+    "next/core-web-vitals",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/stylistic"
+  ],
+  "plugins": ["prettier"],
+  "ignorePatterns": ["src/components/ui/**/*.tsx", "tailwind.config.ts"],
+  "rules": {
+    "@typescript-eslint/consistent-type-definitions": ["error", "type"]
+  }
 }
