@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    return NextResponse.json({ data: newMember });
+    return NextResponse.json(newMember);
   } catch (error) {
     return NextResponse.json({ error: handleApiError(error) }, { status: 500 });
   }
