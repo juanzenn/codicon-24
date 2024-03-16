@@ -16,6 +16,9 @@ export async function POST(req: NextRequest) {
         date: body.date,
         fileUrl: body.file_url,
         ownerId: user.id,
+        familyMembers: {
+          connect: body.familyMembers.map((id) => ({ id })),
+        },
       },
     });
 

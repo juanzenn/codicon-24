@@ -11,3 +11,19 @@ export function useCreateAlbum() {
     },
   });
 }
+
+export function useUpdateAlbum() {
+  return useMutation({
+    mutationFn: async (form: AlbumForm & { id: string }) => {
+      return api.put(endpoints.update(form.id), form);
+    },
+  });
+}
+
+export function useDeleteAlbum() {
+  return useMutation({
+    mutationFn: async (id: string) => {
+      return api.delete(endpoints.delete(id));
+    },
+  });
+}

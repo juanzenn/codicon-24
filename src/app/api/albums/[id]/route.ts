@@ -3,7 +3,12 @@ import { handleApiError } from "@/lib/error.server";
 import { getCurrentUser } from "@/lib/user";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: NextRequest) {
+export async function PUT(
+  req: NextRequest,
+  { params }: { params: { id: string } },
+) {
+  const { id } = params;
+
   try {
     const user = await getCurrentUser();
     if (!user || !user.id) throw new Error("Unauthorized");
@@ -26,19 +31,47 @@ export async function POST(req: NextRequest) {
       take: MEMORIES_AMOUNT,
     });
 
-    const newAlbum = await db.album.create({
+    const updatedAlbum = await db.album.update({
+      where: { id, ownerId: user.id },
       data: {
         title: body.title,
-        description: body.description,
-        ownerId: user.id,
         date: body.date,
+        description: body.description,
         memories: {
+          disconnect: { id },
           connect: relatedMemories.map((memory) => ({ id: memory.id })),
         },
       },
     });
 
-    return NextResponse.json(newAlbum);
+    if (!updatedAlbum) throw new Error("Not found");
+
+    return NextResponse.json(updatedAlbum);
+  } catch (error) {
+    return NextResponse.json({ error: handleApiError(error) }, { status: 500 });
+  }
+}
+
+export async function DELETE(
+  _: NextRequest,
+  { params }: { params: { id: string } },
+) {
+  const { id } = params;
+
+  try {
+    const user = await getCurrentUser();
+    if (!user || !user.id) throw new Error("Unauthorized");
+
+    const deletedAlbum = await db.album.delete({
+      where: {
+        id,
+        ownerId: user.id,
+      },
+    });
+
+    if (!deletedAlbum) throw new Error("Not found");
+
+    return NextResponse.json(deletedAlbum);
   } catch (error) {
     return NextResponse.json({ error: handleApiError(error) }, { status: 500 });
   }
