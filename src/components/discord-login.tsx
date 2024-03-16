@@ -18,8 +18,9 @@ export default function DiscordLogin() {
   return (
     <Button
       onClick={handleLogin}
-      className="bg-discord text-discord-foreground gap-4 font-medium mx-auto flex mt-4 w-60"
+      className="bg-primary text-discord-foreground hover:bg-primary/80 gap-4 font-medium mx-auto flex mt-4 w-60"
       disabled={pending}
+      size="lg"
     >
       {pending ? (
         <Loader2 className="animate-spin" />
