@@ -1,3 +1,4 @@
+import DiscordLogin from "@/components/discord-login";
 import { getCurrentUser } from "@/lib/user";
 import { redirect } from "next/navigation";
 
@@ -9,11 +10,13 @@ export default async function LoginPage() {
   }
 
   return (
-    <div>
-      <h1>Login</h1>
-      <p>
-        <a href="/api/auth/signin">Sign in</a>
-      </p>
+    <div className="flex justify-center items-center">
+      <section className="bg-card text-card-foreground p-6 rounded shadow w-[580px]">
+        <h1 className="text-4xl font-bold tracking-tight text-center mb-2">
+          Login
+        </h1>
+        <DiscordLogin />
+      </section>
     </div>
   );
 }
