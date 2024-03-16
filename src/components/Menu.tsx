@@ -1,8 +1,11 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { LogOut } from "lucide-react";
+import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Button } from "./ui/button";
 
 const MENU_ITEMS = [
   { href: "/members", label: "Members" },
@@ -33,6 +36,15 @@ export default function Menu() {
           );
         })}
       </ul>
+
+      <Button
+        className="fixed top-4 right-4 hover:bg-destructive hover:text-destructive-foreground gap-2"
+        variant="ghost"
+        onClick={() => signOut()}
+      >
+        <LogOut size={16} />
+        Signout
+      </Button>
     </nav>
   );
 }
