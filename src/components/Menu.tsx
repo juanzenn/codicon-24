@@ -31,15 +31,17 @@ export default function Menu() {
           const isSelected = pathname === href;
 
           return (
-            <li
-              key={label}
-              className={cn(
-                "font-medium px-8 py-2 rounded-lg hover:bg-primary/80 hover:text-primary-foreground transition-colors cursor-pointer",
-                isSelected && "bg-primary text-primary-foreground",
-              )}
-            >
-              <Link href={href}>{label}</Link>
-            </li>
+            <Link href={href}>
+              <li
+                key={label}
+                className={cn(
+                  "font-medium px-8 py-2 rounded-lg hover:bg-primary/80 hover:text-primary-foreground transition-colors cursor-pointer",
+                  isSelected && "bg-primary text-primary-foreground",
+                )}
+              >
+                {label}
+              </li>
+            </Link>
           );
         })}
       </ul>

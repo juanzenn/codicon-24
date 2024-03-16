@@ -3,16 +3,6 @@
 import { AlbumForm, albumFormSchema } from "@/app/validation/albums";
 import { Button } from "@/components/ui/button";
 import { DatePicker } from "@/components/ui/datepicker";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { FamilyMember } from "@prisma/client";
-import React from "react";
-import { MultipleSelect } from "../ui/multiple-select";
-import { handleReactQueryError, handleZodError } from "@/lib/error";
-import { useCreateAlbum } from "@/hooks/albums";
-import { toast } from "../ui/use-toast";
-import { useRouter } from "next/navigation";
 import {
   Dialog,
   DialogContent,
@@ -21,7 +11,17 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Loader2, Plus } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { useCreateAlbum } from "@/hooks/albums";
+import { handleReactQueryError, handleZodError } from "@/lib/error";
+import { FamilyMember } from "@prisma/client";
+import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import React from "react";
+import { MultipleSelect } from "../ui/multiple-select";
+import { toast } from "../ui/use-toast";
 
 const FORM_IDS = {
   TITLE: "title",
@@ -129,7 +129,6 @@ export function CreateAlbumForm({ familyMembers }: AlbumFormProps) {
     >
       <DialogTrigger asChild>
         <Button>
-          <Plus size={24} className="mr-2" />
           <span>Create album</span>
         </Button>
       </DialogTrigger>
