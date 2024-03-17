@@ -2,9 +2,11 @@ import { Button } from "@/components/ui/button";
 import { getCurrentUser } from "@/lib/user";
 import { ArrowDownWideNarrow } from "lucide-react";
 import { Session } from "next-auth";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import MemoriesGrid from "../memories/MemoriesGrid";
+import MemoryDialog from "../memories/MemoryDialog";
 
 const MAX_ITEMS = 5;
 
@@ -16,7 +18,6 @@ export default async function DashboardPage() {
       where: { ownerId: user.id },
       include: { _count: { select: { memories: true } } },
       orderBy: { createdAt: "desc" },
-      take: MAX_ITEMS,
     }),
     db.memory.findMany({
       where: { ownerId: user.id },
@@ -43,15 +44,15 @@ export default async function DashboardPage() {
       </header>
 
       <section className="grid grid-cols-3 container gap-6">
-        <article className="py-6 px-4 border border-border rounded-lg">
+        <article className="py-6 px-4 border border-border rounded-lg flex flex-col">
           <h2 className="font-semibold text-xl">Your Family</h2>
-          <div className="py-12">
+          <div className="py-6 gap-2 flex flex-col justify-center flex-1">
             {familyMembers.length <= 0 ? (
               <EmptyCardMessage>No family members yet.</EmptyCardMessage>
             ) : (
-              familyMembers.map((member) => (
+              familyMembers.slice(0, 5).map((member) => (
                 <div key={member.id} className="flex items-center gap-4">
-                  <div className="flex gap-2 w-full items-baseline text-sm">
+                  <div className="flex gap-2 w-full items-baseline">
                     <p className="font-semibold">{member.name}</p>
                     <p className="text-muted-foreground">
                       ({member.relationship})
@@ -65,14 +66,14 @@ export default async function DashboardPage() {
             )}
           </div>
 
-          <Button asChild className="ml-auto flex w-40" variant="ghost">
+          <Button asChild className="ml-auto flex w-40 mt-auto" variant="ghost">
             <Link href="/members">View All</Link>
           </Button>
         </article>
 
-        <article className="py-6 px-4 border border-border rounded-lg">
+        <article className="py-6 px-4 border border-border rounded-lg flex flex-col">
           <h2 className="font-semibold text-xl">Your Albums</h2>
-          <div className="py-12">
+          <div className="py-6 gap-2 flex flex-col justify-center flex-1">
             {albums.length <= 0 ? (
               <EmptyCardMessage>No albums members yet.</EmptyCardMessage>
             ) : null}
@@ -88,19 +89,33 @@ export default async function DashboardPage() {
         <h2 className="font-semibold text-3xl mb-4">Latest Memories</h2>
 
         {memories.length <= 0 ? (
-          <div className="py-28">
-            <EmptyCardMessage>
-              You don't have any memories. Click bellow to create one.
-            </EmptyCardMessage>
-            <Button
-              asChild
-              className="flex mx-auto w-fit text-xl mt-3"
-              size="lg"
-            >
-              <Link href="/memories">Create Memories</Link>
-            </Button>
+          <div className="pb-24">
+            <div className="mx-auto flex items-center mt-12 gap-6 w-3/5">
+              <Image
+                src="/panda.png"
+                alt="Default Panda"
+                width={200}
+                height={200}
+                className="flex-shrink-0"
+              />
+
+              <header className="flex-1">
+                <h2 className="font-bold text-4xl mb-2 text-center">
+                  Hmmm, it seems that you don't have any memories at the
+                  moment...
+                </h2>
+
+                <MemoryDialog familyMembers={familyMembers}>
+                  <Button className="flex mx-auto w-fit text-xl mt-6" size="lg">
+                    Create Memory
+                  </Button>
+                </MemoryDialog>
+              </header>
+            </div>
           </div>
-        ) : <MemoriesGrid memories={memories} />}
+        ) : (
+          <MemoriesGrid memories={memories} />
+        )}
       </section>
     </>
   );
