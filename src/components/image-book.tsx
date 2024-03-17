@@ -2,11 +2,13 @@
 
 import { Prisma } from "@prisma/client";
 import { useAnimate } from "framer-motion";
-import { ArrowLeft, ArrowRight, Info, Volume, VolumeX } from "lucide-react";
+import { ArrowLeft, ArrowRight, Info, FolderDown } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Button } from "./ui/button";
+import JSZip from "jszip";
+import { saveAs } from "file-saver";
 
 type Props = {
   memories: Prisma.MemoryGetPayload<{
@@ -63,6 +65,29 @@ export default function ImageBook({ memories }: Props) {
   const currentMemory = memories[index];
   const nextMemory = memories[(index + 1) % memories.length];
 
+  async function handleDownloadAlbum(
+    albumName: string,
+    memoriesUrls: string[],
+  ) {
+    const memoriesPromises = memoriesUrls.map(async (url) => {
+      const response = await fetch(url);
+
+      return response.blob();
+    });
+
+    const memoriesBlobs = await Promise.all(memoriesPromises);
+
+    const zip = new JSZip();
+
+    // TODO: maybe improve memories names?
+    memoriesBlobs.forEach((blob, index) => {
+      zip.file(`memory-${index + 1}.jpg`, blob);
+    });
+
+    const zipBlob = await zip.generateAsync({ type: "blob" });
+    saveAs(zipBlob, `${albumName}.zip`);
+  }
+
   return (
     <div className="w-full h-full flex justify-between items-center py-24">
       <Link
@@ -72,9 +97,18 @@ export default function ImageBook({ memories }: Props) {
         Heritage Keeper
       </Link>
       <Button
-        className="fixed top-4 right-4 font-bold tracking-tighter text-xl text-accent"
+        onClick={() =>
+          handleDownloadAlbum(
+            "album",
+            memories.map((m) => m.fileUrl ?? ""),
+          )
+        }
+        className="fixed top-4 right-4 font-bold tracking-tighter text-xl text-accent flex gap-2 items-center justify-center"
       >
-        Download Pictures
+        <FolderDown />
+        <span>
+          Download Pictures
+        </span>
       </Button>
 
       <button
