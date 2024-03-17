@@ -41,8 +41,8 @@ export default async function DashboardPage() {
       <header className="container py-8 text-center">
         <h1 className="mb-2 text-4xl font-bold">Welcome, {user.name}!</h1>
         <p className="text-muted-foreground text-lg">
-          Heritage Keeper will help you save and <b>transmit</b> the precious memories you've had
-          with your familiy.
+          Heritage Keeper will help you save and <b>transmit</b> the precious
+          memories you've had with your familiy.
         </p>
       </header>
 
@@ -79,7 +79,9 @@ export default async function DashboardPage() {
           <div className="py-6 gap-2 flex flex-col justify-center flex-1">
             {albums.length <= 0 ? (
               <EmptyCardMessage>No albums members yet.</EmptyCardMessage>
-            ) : <AlbumsList albums={albums.slice(0, 5)} />}
+            ) : (
+              <AlbumsList albums={albums.slice(0, 5)} />
+            )}
           </div>
 
           <Button asChild className="ml-auto flex w-40" variant="ghost">
@@ -129,13 +131,13 @@ function EmptyCardMessage({ children }: { children: React.ReactNode }) {
 }
 
 type AlbumsListProps = {
-  albums: Album[]
-}
+  albums: Album[];
+};
 
 function AlbumsList({ albums }: AlbumsListProps) {
   return (
     <ul>
-      {albums.map(album => (
+      {albums.map((album) => (
         <Link href={`/album/${album.id}`}>
           <li key={album.id} className="flex items-center gap-2 mb-2">
             <Images size={16} /> <span>{album.title}</span>
@@ -143,6 +145,5 @@ function AlbumsList({ albums }: AlbumsListProps) {
         </Link>
       ))}
     </ul>
-  )
+  );
 }
-

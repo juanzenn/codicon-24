@@ -7,10 +7,12 @@ import {
 export function handleApiError(error: unknown) {
   const isDevelopment = process.env.NODE_ENV === "development";
 
-  if (!isDevelopment) return "Internal Server Error";
+  if (!isDevelopment) {
+    console.log("API Error\n\n");
+    console.log(error);
 
-  console.log("API Error\n\n");
-  console.log(error);
+    return "Internal Server Error";
+  }
 
   if (error instanceof PrismaClientInitializationError) {
     return "Prisma - Initialization Error";

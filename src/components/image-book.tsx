@@ -22,23 +22,22 @@ export default function ImageBook({ memories }: Props) {
   useEffect(() => {
     function handleKeyPress(e: KeyboardEvent) {
       const { key } = e;
-      console.log(key)
       switch (key) {
-        case 'ArrowLeft':
-          back()
+        case "ArrowLeft":
+          back();
           break;
-        case 'ArrowRight':
-          next()
+        case "ArrowRight":
+          next();
           break;
         default:
           return;
       }
     }
-    document.addEventListener('keydown', handleKeyPress);
+    document.addEventListener("keydown", handleKeyPress);
     return () => {
-      document.removeEventListener('keydown', handleKeyPress);
+      document.removeEventListener("keydown", handleKeyPress);
     };
-  })
+  });
 
   function next() {
     setIndex((index + 1) % memories.length);

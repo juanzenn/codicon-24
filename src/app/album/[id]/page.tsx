@@ -5,23 +5,22 @@ import { db } from "@/lib/db";
 type AlbumPageParams = {
   params: {
     id: string;
-  }
-}
+  };
+};
 
 export default async function AlbumPage({ params }: AlbumPageParams) {
-
   const albumWithMemories = await db.album.findFirst({
     where: {
-      id: params.id
+      id: params.id,
     },
     select: {
       memories: {
         include: {
-          familyMembers: true
-        }
-      }
-    }
-  })
+          familyMembers: true,
+        },
+      },
+    },
+  });
 
   if (!albumWithMemories) return null;
 
