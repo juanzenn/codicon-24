@@ -43,6 +43,9 @@ export function DeleteModal({
   }
 
   function handleImageChange(e: any) {
+    if (isLoading) {
+      return;
+    }
     let { id } = e.target;
     if (id === "cancel") {
       setImage("/gonzalo-sure.png");
