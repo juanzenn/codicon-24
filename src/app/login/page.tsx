@@ -11,7 +11,19 @@ export default async function LoginPage() {
 
   return (
     <div className="flex justify-center items-center h-dvh">
-      <section className="bg-card text-card-foreground py-12 px-8 rounded-2xl shadow-md w-[600px] text-center leading-relaxed">
+      <section className="relative bg-card text-card-foreground py-12 px-8 rounded-2xl shadow-md w-[600px] text-center leading-relaxed">
+        <img
+          src="/rosa.png"
+          alt="Rosa"
+          className="absolute right-[-15%] bottom-[-15%] rotate-12 w-[200px]"
+        />
+
+        <img
+          src="/juan.png"
+          alt="Juan"
+          className="absolute left-[-20%] bottom-[-10%] w-[200px] rotate-2"
+        />
+
         <h1 className="text-4xl font-bold tracking-tight text-center text-primary mb-5">
           Heritage Keeper
         </h1>
