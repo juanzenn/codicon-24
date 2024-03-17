@@ -5,9 +5,14 @@ import { getCurrentUser } from "@/lib/user";
 import { Prisma } from "@prisma/client";
 import { Session } from "next-auth";
 import { db } from "@/lib/db";
+import { AlbumsGrid } from "@/components/albums/albums-grid";
 
-export type AlbumWithFamilyMembers = Prisma.AlbumGetPayload<{
-  include: { memories: { include: { familyMembers: true } } };
+export type AlbumWithMemories = Prisma.AlbumGetPayload<{
+  include: {
+    memories: {
+      include: { familyMembers: true };
+    };
+  };
 }>;
 
 type AlbumPageProps = {
@@ -66,7 +71,7 @@ export default async function AlbumsPage({ searchParams }: AlbumPageProps) {
       </section>
 
       <section className="mt-6">
-        <h1>Work in progress</h1>
+        <AlbumsGrid albums={albums} />
       </section>
     </div>
   );
