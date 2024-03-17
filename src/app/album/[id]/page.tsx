@@ -1,6 +1,7 @@
 import ImageBook from "@/components/image-book";
 import React from "react";
 import { db } from "@/lib/db";
+import { notFound } from "next/navigation";
 
 type AlbumPageParams = {
   params: {
@@ -22,7 +23,7 @@ export default async function AlbumPage({ params }: AlbumPageParams) {
     },
   });
 
-  if (!albumWithMemories) return null;
+  if (!albumWithMemories) return notFound();
 
   const { memories } = albumWithMemories;
 
