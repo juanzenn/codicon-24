@@ -1,6 +1,6 @@
 # Heritage Keeper
 
-[Heritage Keeper](https://imgur.com/q4oZUJN)
+![Heritage Keeper - Login Page](https://i.imgur.com/q4oZUJN.png)
 
 ## What is Heritage Keeper
 
