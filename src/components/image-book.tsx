@@ -97,6 +97,7 @@ export default function ImageBook({ memories }: Props) {
         Heritage Keeper
       </Link>
       <Button
+        size={'sm'}
         onClick={() =>
           handleDownloadAlbum(
             "album",
