@@ -2,7 +2,14 @@
 
 import { AlbumWithMemories } from "@/app/(dashboard)/albums/page";
 import { getFormattedDate } from "@/lib/utils";
-import { Calendar, Images, PencilIcon, User, Users2 } from "lucide-react";
+import {
+  Calendar,
+  FolderDown,
+  Images,
+  PencilIcon,
+  User,
+  Users2,
+} from "lucide-react";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import Link from "next/link";
@@ -14,6 +21,8 @@ import React, { startTransition } from "react";
 import { DeleteModal } from "../DeleteModal";
 import { AlbumForm } from "./upsert-album-form";
 import { FamilyMember, Memory } from "@prisma/client";
+import JSZip from "jszip";
+import { saveAs } from "file-saver";
 
 type AlbumsGridProps = {
   albums: AlbumWithMemories[];
@@ -48,6 +57,29 @@ export function AlbumsGrid({
     };
   }
 
+  async function handleDownloadAlbum(
+    albumName: string,
+    memoriesUrls: string[],
+  ) {
+    const memoriesPromises = memoriesUrls.map(async (url) => {
+      const response = await fetch(url);
+
+      return response.blob();
+    });
+
+    const memoriesBlobs = await Promise.all(memoriesPromises);
+
+    const zip = new JSZip();
+
+    // TODO: maybe improve memories names?
+    memoriesBlobs.forEach((blob, index) => {
+      zip.file(`memory-${index + 1}.jpg`, blob);
+    });
+
+    const zipBlob = await zip.generateAsync({ type: "blob" });
+    saveAs(zipBlob, `${albumName}.zip`);
+  }
+
   return (
     <div className="grid grid-cols-4 gap-8">
       {albums.map((album) => (
@@ -73,6 +105,18 @@ export function AlbumsGrid({
                 <Link href={`/album/${album.id}`}>
                   <Images size={16} className="flex-shrink-0" />
                 </Link>
+              </Button>
+
+              <Button
+                onClick={() =>
+                  handleDownloadAlbum(
+                    album.title,
+                    album.memories.map((m) => m.fileUrl ?? ""),
+                  )
+                }
+                variant="ghost"
+              >
+                <FolderDown size={16} className="flex-shrink-0" />
               </Button>
 
               <AlbumForm
