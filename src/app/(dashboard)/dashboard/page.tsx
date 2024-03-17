@@ -1,12 +1,14 @@
 import { Button } from "@/components/ui/button";
-import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/user";
+import { Images } from "lucide-react";
 import { Session } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import MemoriesGrid from "../memories/MemoriesGrid";
 import MemoryDialog from "../memories/MemoryDialog";
+import { Album } from "@prisma/client";
+import { db } from "@/lib/db";
 
 const MAX_ITEMS = 5;
 
@@ -39,7 +41,7 @@ export default async function DashboardPage() {
       <header className="container py-8 text-center">
         <h1 className="mb-2 text-4xl font-bold">Welcome, {user.name}!</h1>
         <p className="text-muted-foreground text-lg">
-          Heritage Keeper will help you save the precious memories you've had
+          Heritage Keeper will help you save and <b>transmit</b> the precious memories you've had
           with your familiy.
         </p>
       </header>
@@ -77,7 +79,7 @@ export default async function DashboardPage() {
           <div className="py-6 gap-2 flex flex-col justify-center flex-1">
             {albums.length <= 0 ? (
               <EmptyCardMessage>No albums members yet.</EmptyCardMessage>
-            ) : null}
+            ) : <AlbumsList albums={albums.slice(0, 5)} />}
           </div>
 
           <Button asChild className="ml-auto flex w-40" variant="ghost">
@@ -125,3 +127,22 @@ export default async function DashboardPage() {
 function EmptyCardMessage({ children }: { children: React.ReactNode }) {
   return <p className="text-muted-foreground text-center">{children}</p>;
 }
+
+type AlbumsListProps = {
+  albums: Album[]
+}
+
+function AlbumsList({ albums }: AlbumsListProps) {
+  return (
+    <ul>
+      {albums.map(album => (
+        <Link href={`/album/${album.id}`}>
+          <li key={album.id} className="flex items-center gap-2 mb-2">
+            <Images size={16} /> <span>{album.title}</span>
+          </li>
+        </Link>
+      ))}
+    </ul>
+  )
+}
+

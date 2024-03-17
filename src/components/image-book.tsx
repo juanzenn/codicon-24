@@ -2,9 +2,9 @@
 
 import { Prisma } from "@prisma/client";
 import { useAnimate } from "framer-motion";
-import { ArrowLeft, ArrowRight, Info } from "lucide-react";
+import { ArrowLeft, ArrowRight, Info, Volume, VolumeX } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 
 type Props = {
@@ -18,6 +18,27 @@ type Props = {
 export default function ImageBook({ memories }: Props) {
   const [index, setIndex] = React.useState(0);
   const [scope, animate] = useAnimate();
+
+  useEffect(() => {
+    function handleKeyPress(e: KeyboardEvent) {
+      const { key } = e;
+      console.log(key)
+      switch (key) {
+        case 'ArrowLeft':
+          back()
+          break;
+        case 'ArrowRight':
+          next()
+          break;
+        default:
+          return;
+      }
+    }
+    document.addEventListener('keydown', handleKeyPress);
+    return () => {
+      document.removeEventListener('keydown', handleKeyPress);
+    };
+  })
 
   function next() {
     setIndex((index + 1) % memories.length);

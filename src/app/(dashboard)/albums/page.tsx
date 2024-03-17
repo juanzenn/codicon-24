@@ -4,6 +4,7 @@ import PageHeader from "@/components/page-header";
 import { getCurrentUser } from "@/lib/user";
 import { Prisma } from "@prisma/client";
 import { Session } from "next-auth";
+import { db } from "@/lib/db";
 
 export type AlbumWithFamilyMembers = Prisma.AlbumGetPayload<{
   include: { memories: { include: { familyMembers: true } } };

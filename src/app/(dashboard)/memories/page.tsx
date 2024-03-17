@@ -4,6 +4,7 @@ import { FamilyMember } from "@prisma/client";
 import Image from "next/image";
 import MemoriesGrid from "./MemoriesGrid";
 import MemoryDialog from "./MemoryDialog";
+import { db } from "@/lib/db";
 
 export default async function MemoriesPage() {
   const user = await getCurrentUser();

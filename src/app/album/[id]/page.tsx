@@ -1,48 +1,35 @@
 import ImageBook from "@/components/image-book";
-import { Memory, Prisma } from "@prisma/client";
 import React from "react";
+import { db } from "@/lib/db";
 
-const ALBUM_IMAGES: Prisma.MemoryGetPayload<{
-  include: {
-    familyMembers: { select: { name: true } };
-  };
-}>[] = [
-  {
-    date: new Date(),
-    fileUrl: "https://source.unsplash.com/random/?Nature&1",
-    createdAt: new Date(),
-    description: "Nature",
-    id: "1",
-    isArchived: false,
-    ownerId: "1",
-    familyMembers: [{ name: "John Doe" }],
-  },
-  {
-    date: new Date(),
-    fileUrl: "https://source.unsplash.com/random/?Nature&2",
-    createdAt: new Date(),
-    description: "Nature",
-    id: "2",
-    isArchived: false,
-    ownerId: "1",
-    familyMembers: [{ name: "John Doe" }],
-  },
-  {
-    date: new Date(),
-    fileUrl: "https://source.unsplash.com/random/?Nature&3",
-    createdAt: new Date(),
-    description: "Nature",
-    id: "3",
-    isArchived: false,
-    ownerId: "1",
-    familyMembers: [{ name: "John Doe" }],
-  },
-];
+type AlbumPageParams = {
+  params: {
+    id: string;
+  }
+}
 
-export default async function AlbumPage() {
+export default async function AlbumPage({ params }: AlbumPageParams) {
+
+  const albumWithMemories = await db.album.findFirst({
+    where: {
+      id: params.id
+    },
+    select: {
+      memories: {
+        include: {
+          familyMembers: true
+        }
+      }
+    }
+  })
+
+  if (!albumWithMemories) return null;
+
+  const { memories } = albumWithMemories;
+
   return (
     <main className="bg-gray-950 text-gray-100 h-dvh">
-      <ImageBook memories={ALBUM_IMAGES} />
+      <ImageBook memories={memories} />
     </main>
   );
 }
