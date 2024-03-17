@@ -1,5 +1,6 @@
 "use client";
 import { memoryFormSchema, type MemoryForm } from "@/app/validation/memories";
+import { AddMember } from "@/components/members/add-member";
 import { Button } from "@/components/ui/button";
 import { DatePicker } from "@/components/ui/datepicker";
 import { DialogFooter } from "@/components/ui/dialog";
@@ -11,7 +12,7 @@ import { useCreateMemory } from "@/hooks/memories";
 import { useUploadImage } from "@/hooks/useUploadImage";
 import { handleReactQueryError, handleZodError } from "@/lib/error";
 import { FamilyMember } from "@prisma/client";
-import { Loader2, Trash } from "lucide-react";
+import { Loader2, Trash, UserPlus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -190,14 +191,23 @@ export default function MemoryForm({
 
       <div className="space-y-1">
         <Label htmlFor={FORM_IDS.FAMILY_MEMBERS}>Family members</Label>
-        <MultipleSelect
-          onSelect={handleToggleFamilyMember}
-          values={form.familyMembers}
-          options={familyMembers.map(({ id, name, relationship }) => ({
-            value: id,
-            label: `${name} (${relationship})`,
-          }))}
-        />
+
+        <div className="flex">
+          <MultipleSelect
+            onSelect={handleToggleFamilyMember}
+            values={form.familyMembers}
+            options={familyMembers.map(({ id, name, relationship }) => ({
+              value: id,
+              label: `${name} (${relationship})`,
+            }))}
+          />
+
+          <AddMember>
+            <Button className="ml-2" variant="outline">
+              <UserPlus />
+            </Button>
+          </AddMember>
+        </div>
       </div>
 
       <div className="space-y-1">

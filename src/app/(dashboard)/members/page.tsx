@@ -1,6 +1,7 @@
 import { AddMember } from "@/components/members/add-member";
 import MembersTable from "@/components/members/members-table";
 import PageHeader from "@/components/page-header";
+import { Button } from "@/components/ui/button";
 import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/user";
 import { Session } from "next-auth";
@@ -21,7 +22,9 @@ export default async function MembersPage() {
       />
 
       <section className="mt-6">
-        <AddMember />
+        <AddMember>
+          <Button>Add Family Member</Button>
+        </AddMember>
       </section>
 
       <section className="mt-6">

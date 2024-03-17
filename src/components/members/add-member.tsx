@@ -29,7 +29,7 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { toast } from "../ui/use-toast";
 
-export function AddMember() {
+export function AddMember({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const { mutate: createMember, isPending: isCreatingMember } =
     useCreateMember();
@@ -123,9 +123,7 @@ export function AddMember() {
 
   return (
     <Dialog open={open} onOpenChange={() => setOpen(!open)}>
-      <DialogTrigger asChild>
-        <Button>Add Family Member</Button>
-      </DialogTrigger>
+      <DialogTrigger asChild>{children}</DialogTrigger>
 
       <DialogContent className="sm:max-w-[550px]">
         <DialogHeader>
