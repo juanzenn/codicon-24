@@ -98,8 +98,8 @@ type EmptyStateProps = {
 
 function EmptyState({ familyMembers, memories }: EmptyStateProps) {
   return (
-    <div className="w-1/2 mx-auto grid grid-cols-2 justify-center items-center mt-12">
-      <Image src={"/panda.png"} alt="Default Panda" width={300} height={300} />
+    <div className="w-1/2 mx-auto grid grid-cols-2 justify-center items-center mt-12 py-12">
+      <Image src={"/amanda.png"} alt="Amanda" width={300} height={300} />
       <div>
         <header className="mt-10">
           <h1 className="font-bold text-4xl mb-2">
