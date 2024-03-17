@@ -12,15 +12,13 @@ export default async function MemoriesPage() {
   }
 
   const familyMembers = await db.familyMember.findMany({
-    where: {
-      ownerId: user.id,
-    },
+    where: { ownerId: user.id },
   });
 
   const memories = await db.memory.findMany({
-    where: {
-      ownerId: user.id,
-    },
+    where: { ownerId: user.id },
+    include: { familyMembers: { select: { name: true } } },
+    orderBy: { createdAt: "desc" },
   });
 
   if (memories.length == 0) {

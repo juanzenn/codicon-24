@@ -204,8 +204,7 @@ export function AddMember() {
             </div>
 
             <Button type="submit" disabled={isLoading} className="w-48 gap-4">
-              {isLoading && <Loader2 className="animate-spin" />}
-              Create
+              {isLoading ? <Loader2 className="animate-spin" /> : "Create"}
             </Button>
           </DialogFooter>
         </form>

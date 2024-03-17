@@ -197,8 +197,7 @@ export function UpdateMember({
 
           <DialogFooter>
             <Button type="submit" disabled={isLoading} className="w-48 gap-4">
-              {isLoading && <Loader2 className="animate-spin" />}
-              Update
+              {isLoading ? <Loader2 className="animate-spin" /> : "Update"}
             </Button>
           </DialogFooter>
         </form>

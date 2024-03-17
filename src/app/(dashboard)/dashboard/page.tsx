@@ -17,10 +17,11 @@ export default async function DashboardPage() {
     db.familyMember.findMany({
       where: { ownerId: user.id },
       include: { _count: { select: { memories: true } } },
-      orderBy: { createdAt: "desc" },
+      orderBy: { memories: { _count: "desc" } },
     }),
     db.memory.findMany({
       where: { ownerId: user.id },
+      include: { familyMembers: { select: { name: true } } },
       orderBy: { createdAt: "desc" },
       take: MAX_ITEMS,
     }),
@@ -85,11 +86,11 @@ export default async function DashboardPage() {
         </article>
       </section>
 
-      <section className="container mt-12">
+      <section className="container mt-12 pb-24">
         <h2 className="font-semibold text-3xl mb-4">Latest Memories</h2>
 
         {memories.length <= 0 ? (
-          <div className="pb-24">
+          <div>
             <div className="mx-auto flex items-center mt-12 gap-6 w-3/5">
               <Image
                 src="/panda.png"

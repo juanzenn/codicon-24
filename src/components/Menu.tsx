@@ -9,8 +9,8 @@ import { Button } from "./ui/button";
 
 const MENU_ITEMS = [
   { href: "/members", label: "Family" },
-  { href: "/albums", label: "Albums" },
   { href: "/memories", label: "Memories" },
+  { href: "/albums", label: "Albums" },
 ];
 
 export default function Menu() {
