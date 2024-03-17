@@ -41,7 +41,7 @@ export function AlbumMemoriesSelector({
 
   const familyMembersAsOptions = familyMembers.map((member) => ({
     value: member.id,
-    label: member.name,
+    label: `${member.name} (${member.relationship})`,
   }));
 
   function handleToggleFamilyMember(memberId: string) {
