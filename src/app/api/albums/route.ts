@@ -1,6 +1,6 @@
 import { CreateAlbumForm } from "@/app/validation/albums";
+import { db } from "@/lib/db";
 import { handleApiError } from "@/lib/error.server";
-
 import { getCurrentUser } from "@/lib/user";
 import { NextRequest, NextResponse } from "next/server";
 

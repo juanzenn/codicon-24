@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
+import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/user";
-import { ArrowDownWideNarrow } from "lucide-react";
 import { Session } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
