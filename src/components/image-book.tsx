@@ -134,13 +134,12 @@ export default function ImageBook({ memories }: Props) {
                     </li>
                     <li>
                       <span className="font-semibold">Family members:</span>
-                      <ul>
-                        {currentMemory.familyMembers?.map((member) => (
-                          <li key={member.name} className="pl-2">
-                            {member.name}
-                          </li>
-                        ))}
-                      </ul>
+                      <span>
+                        {" "}
+                        {currentMemory.familyMembers
+                          ?.map((m) => m.name)
+                          .join(", ") || "None"}
+                      </span>
                     </li>
                   </ol>
                 </div>
