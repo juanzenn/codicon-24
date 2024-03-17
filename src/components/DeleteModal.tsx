@@ -73,7 +73,7 @@ export function DeleteModal({
       <DialogContent>
         <DialogHeader id="main" onMouseOver={handleImageChange}>
           <div className="flex items-center gap-8">
-            <div className="flex-shrink-0">
+            <div className="flex-shrink-0" style={{ height: "220px" }}>
               <Image src={image} width={150} height={150} alt="gonzalo" />
             </div>
             <div className="flex flex-1 flex-col justify-center">
