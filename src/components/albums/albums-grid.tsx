@@ -80,6 +80,24 @@ export function AlbumsGrid({
     saveAs(zipBlob, `${albumName}.zip`);
   }
 
+  async function handleCopyLinkToClipboard(visualizationLink: string) {
+    const fullLink = `${window.location.origin}${visualizationLink}`;
+    try {
+      await navigator.clipboard.writeText(fullLink);
+
+      toast({
+        variant: "success",
+        title: "Visualization link copied to clipboard",
+        description: "You can now share the link with your family",
+      });
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Could not copy link to clipboard",
+      });
+    }
+  }
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
       {albums.map((album) => (
@@ -100,7 +118,12 @@ export function AlbumsGrid({
 
             <div className="flex gap-4">
               <Button asChild variant="ghost">
-                <Link href={`/album/${album.id}`}>
+                <Link
+                  onClick={() =>
+                    handleCopyLinkToClipboard(`/album/${album.id}`)
+                  }
+                  href={`/album/${album.id}`}
+                >
                   <Images size={16} className="flex-shrink-0" />
                 </Link>
               </Button>
