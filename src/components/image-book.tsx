@@ -97,7 +97,7 @@ export default function ImageBook({ memories }: Props) {
         Heritage Keeper
       </Link>
       <Button
-        size={'sm'}
+        size={"sm"}
         onClick={() =>
           handleDownloadAlbum(
             "album",
@@ -107,9 +107,7 @@ export default function ImageBook({ memories }: Props) {
         className="fixed top-4 right-4 font-bold tracking-tighter text-sm text-accent flex gap-2 items-center justify-center"
       >
         <FolderDown size={16} />
-        <span>
-          Download Pictures
-        </span>
+        <span className="hidden md:inline-block">Download Pictures</span>
       </Button>
 
       <button
