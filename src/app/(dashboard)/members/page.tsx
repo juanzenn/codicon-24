@@ -4,6 +4,7 @@ import PageHeader from "@/components/page-header";
 import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/user";
 import { Session } from "next-auth";
+import MemoriesGrid from "../memories/MemoriesGrid";
 
 export default async function MembersPage() {
   const user = (await getCurrentUser()) as Session["user"];

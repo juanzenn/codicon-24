@@ -4,6 +4,7 @@ import { ArrowDownWideNarrow } from "lucide-react";
 import { Session } from "next-auth";
 import Link from "next/link";
 import React from "react";
+import MemoriesGrid from "../memories/MemoriesGrid";
 
 const MAX_ITEMS = 5;
 
@@ -84,7 +85,7 @@ export default async function DashboardPage() {
       </section>
 
       <section className="container mt-12">
-        <h2 className="font-semibold text-3xl">Latest Memories</h2>
+        <h2 className="font-semibold text-3xl mb-4">Latest Memories</h2>
 
         {memories.length <= 0 ? (
           <div className="py-28">
@@ -99,7 +100,7 @@ export default async function DashboardPage() {
               <Link href="/memories">Create Memories</Link>
             </Button>
           </div>
-        ) : null}
+        ) : <MemoriesGrid memories={memories} />}
       </section>
     </>
   );

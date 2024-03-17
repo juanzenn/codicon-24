@@ -24,9 +24,10 @@ const FORM_IDS = {
 
 type MemoryFormProps = {
     familyMembers: FamilyMember[]
+    setIsOpen: (x: boolean) => void;
 }
 
-export default function MemoryForm({ familyMembers }: MemoryFormProps) {
+export default function MemoryForm({ familyMembers, setIsOpen }: MemoryFormProps) {
     const { uploadImage, isUploading } = useUploadImage();
     const { mutate: createMemory, isPending } = useCreateMemory();
     const router = useRouter();
@@ -129,6 +130,7 @@ export default function MemoryForm({ familyMembers }: MemoryFormProps) {
                 startTransition(() => {
                     router.refresh()
                 });
+                setIsOpen(false)
             },
             onError: handleReactQueryError
         })
@@ -173,7 +175,7 @@ export default function MemoryForm({ familyMembers }: MemoryFormProps) {
                     values={form.familyMembers}
                     options={familyMembers.map(({ id, name, relationship }) => ({
                         value: id,
-                        label: name,
+                        label: `${name} (${relationship})`,
                     }))}
                 />
             </div>

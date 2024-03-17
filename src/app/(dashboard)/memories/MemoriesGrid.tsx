@@ -51,9 +51,6 @@ export default function MemoriesGrid({ memories }: MemoriesGridProps) {
                             <Calendar /> <span>{getFormattedDate(memory.date)}</span>{" "}
                         </div>
                         <div className="flex">
-                            <Button variant={"ghost"}>
-                                <Edit2 size={16} />
-                            </Button>
                             <DeleteMemoryModal
                                 title="Are you sure?"
                                 description="This action cannot be undone. This will permanently delete your

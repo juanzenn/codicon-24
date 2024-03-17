@@ -11,7 +11,6 @@ const MENU_ITEMS = [
   { href: "/members", label: "Family" },
   { href: "/albums", label: "Albums" },
   { href: "/memories", label: "Memories" },
-  { href: "/proximity", label: "Proximity" },
 ];
 
 export default function Menu() {

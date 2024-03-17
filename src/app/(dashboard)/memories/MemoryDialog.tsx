@@ -18,8 +18,10 @@ type MemberDialogProps = {
 }
 
 export default function MemoryDialog({ familyMembers }: MemberDialogProps) {
+    const [isOpen, setIsOpen] = React.useState(false);
+
     return (
-        <Dialog>
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
                 <Button>Upload Memory</Button>
             </DialogTrigger>
@@ -30,7 +32,7 @@ export default function MemoryDialog({ familyMembers }: MemberDialogProps) {
                         Tag your loved ones and add a description of the memory you're uploading
                     </DialogDescription>
                 </DialogHeader>
-                <MemoryForm familyMembers={familyMembers} />
+                <MemoryForm familyMembers={familyMembers} setIsOpen={setIsOpen} />
             </DialogContent>
         </Dialog>
     )
