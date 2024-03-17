@@ -104,9 +104,9 @@ export default function ImageBook({ memories }: Props) {
             memories.map((m) => m.fileUrl ?? ""),
           )
         }
-        className="fixed top-4 right-4 font-bold tracking-tighter text-xl text-accent flex gap-2 items-center justify-center"
+        className="fixed top-4 right-4 font-bold tracking-tighter text-sm text-accent flex gap-2 items-center justify-center"
       >
-        <FolderDown />
+        <FolderDown size={16} />
         <span>
           Download Pictures
         </span>
