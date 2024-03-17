@@ -17,7 +17,7 @@ export default function Menu() {
   const pathname = usePathname();
 
   return (
-    <nav className="w-full bg-accent py-2 px-6 shadow-sm border-b border-b-background/30 sticky top-0 flex justify-between items-center">
+    <nav className="w-full bg-accent py-2 px-6 shadow-sm border-b border-b-background/30 sticky top-0 flex justify-between items-center z-50">
       <Link
         href="/dashboard"
         className="font-bold text-primary text-lg tracking-tighter hover:text-primary/80 transition-colors"

@@ -84,15 +84,13 @@ export function AlbumsGrid({
     <div className="grid grid-cols-4 gap-8">
       {albums.map((album) => (
         <div key={album.id} className="relative rounded w-full mb-4 group">
-          <div className="absolute transition-all cursor-pointer text-white opacity-0 hover:opacity-75 w-full h-full bg-red flex flex-col items-center justify-center gap-2 z-20">
+          <div className="absolute px-4 transition-all cursor-pointer text-white opacity-0 hover:opacity-75 w-full h-full bg-red flex flex-col items-center justify-center gap-2 z-20">
             <h2 className="line-clamp-4 text-lg font-semibold">
               {album.title}
             </h2>
 
             {album.description && (
-              <p className="line-clamp-4 text-center px-8">
-                {album.description}
-              </p>
+              <p className="line-clamp-4 text-center ">{album.description}</p>
             )}
 
             <div className="flex gap-2">

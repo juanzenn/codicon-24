@@ -51,7 +51,7 @@ export default function MemoriesGrid({ memories }: MemoriesGridProps) {
     <div className="grid grid-cols-4 gap-8">
       {memories.map((memory) => (
         <div key={memory.id} className="relative rounded w-full mb-4 group">
-          <div className="absolute transition-all cursor-pointer text-white opacity-0 hover:opacity-75 w-full h-full bg-red flex flex-col items-center justify-center gap-2 z-20">
+          <div className="absolute px-4 text-center transition-all cursor-pointer text-white opacity-0 hover:opacity-75 w-full h-full bg-red flex flex-col items-center justify-center gap-2 z-20">
             <h2 className="line-clamp-4 text-lg font-semibold">
               {memory.description}
             </h2>
