@@ -36,9 +36,11 @@ export function MultipleSelect({
           className="w-full justify-start bg-accent hover:bg-accent/50"
           variant="outline"
         >
-          {values
-            .map((id) => options.find((option) => option.value === id)?.label)
-            .join(", ") || "Select family members"}
+          <span className="text-wrap text-left line-clamp-1">
+            {values
+              .map((id) => options.find((option) => option.value === id)?.label)
+              .join(", ") || "Select family members"}
+          </span>
         </Button>
       </DropdownMenuTrigger>
 

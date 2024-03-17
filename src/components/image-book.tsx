@@ -16,8 +16,6 @@ type Props = {
 };
 
 export default function ImageBook({ memories }: Props) {
-  console.log(memories);
-
   const [index, setIndex] = React.useState(0);
   const [scope, animate] = useAnimate();
 
@@ -118,17 +116,13 @@ export default function ImageBook({ memories }: Props) {
                       <span className="font-semibold">Family members:</span>
                       <ul>
                         {currentMemory.familyMembers?.map((member) => (
-                          <li key={member.name}>{member.name}</li>
+                          <li key={member.name} className="pl-2">
+                            {member.name}
+                          </li>
                         ))}
                       </ul>
                     </li>
                   </ol>
-
-                  <p className="text-xs">
-                    {currentMemory.familyMembers
-                      ?.map((member) => member.name)
-                      .join(", ")}
-                  </p>
                 </div>
               </PopoverContent>
             </Popover>
