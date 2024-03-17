@@ -2,7 +2,7 @@
 
 import { AlbumWithMemories } from "@/app/(dashboard)/albums/page";
 import { getFormattedDate } from "@/lib/utils";
-import { Calendar, Eye, Images, User, Users2 } from "lucide-react";
+import { Calendar, Images, PencilIcon, User, Users2 } from "lucide-react";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import Link from "next/link";
@@ -12,12 +12,20 @@ import { toast } from "../ui/use-toast";
 import { handleReactQueryError } from "@/lib/error";
 import React, { startTransition } from "react";
 import { DeleteModal } from "../DeleteModal";
+import { AlbumForm } from "./upsert-album-form";
+import { FamilyMember, Memory } from "@prisma/client";
 
 type AlbumsGridProps = {
   albums: AlbumWithMemories[];
+  memories: Memory[];
+  familyMembers: FamilyMember[];
 };
 
-export function AlbumsGrid({ albums }: AlbumsGridProps) {
+export function AlbumsGrid({
+  albums,
+  familyMembers,
+  memories,
+}: AlbumsGridProps) {
   const router = useRouter();
   const { mutateAsync: deleteAlbum } = useDeleteAlbum();
 
@@ -66,6 +74,36 @@ export function AlbumsGrid({ albums }: AlbumsGridProps) {
                   <Images size={16} className="flex-shrink-0" />
                 </Link>
               </Button>
+
+              <AlbumForm
+                key={album.id}
+                familyMembers={familyMembers}
+                memories={memories}
+                preloadedAlbum={{
+                  id: album.id,
+                  details: {
+                    title: album.title,
+                    description: album.description ?? "",
+                    date: album.date,
+                  },
+                  selectedMemories: {
+                    memories: album.memories.map((memory) => memory.id),
+                    familyMembers: Array.from(
+                      new Set(
+                        album.memories
+                          .map((memory) =>
+                            memory.familyMembers.map((m) => m.id),
+                          )
+                          .flat(),
+                      ),
+                    ),
+                  },
+                }}
+              >
+                <Button variant="ghost">
+                  <PencilIcon size={16} className="flex-shrink-0" />
+                </Button>
+              </AlbumForm>
 
               <DeleteModal
                 title="Are you sure?"

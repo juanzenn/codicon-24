@@ -1,4 +1,4 @@
-import { CreateAlbumForm, albumDetailsSchema } from "@/app/validation/albums";
+import { UpsertAlbumForm, albumDetailsSchema } from "@/app/validation/albums";
 import { Button } from "@/components/ui/button";
 import { DatePicker } from "@/components/ui/datepicker";
 import { Input } from "@/components/ui/input";
@@ -13,8 +13,8 @@ const FORM_IDS = {
 };
 
 type AlbumDetailsFormStepProps = {
-  album: CreateAlbumForm;
-  setAlbum: React.Dispatch<React.SetStateAction<CreateAlbumForm>>;
+  album: UpsertAlbumForm;
+  setAlbum: React.Dispatch<React.SetStateAction<UpsertAlbumForm>>;
   next: () => void;
 };
 

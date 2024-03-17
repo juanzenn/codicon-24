@@ -1,4 +1,4 @@
-import { CreateAlbumForm, selectMemoriesSchema } from "@/app/validation/albums";
+import { UpsertAlbumForm, selectMemoriesSchema } from "@/app/validation/albums";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { MultipleSelect } from "@/components/ui/multiple-select";
@@ -15,13 +15,14 @@ const FORM_IDS = {
 };
 
 type MemoriesSelectorStepProps = {
-  album: CreateAlbumForm;
-  setAlbum: React.Dispatch<React.SetStateAction<CreateAlbumForm>>;
-  handleCreateAlbum: (event: React.FormEvent<HTMLFormElement>) => void;
+  album: UpsertAlbumForm;
+  setAlbum: React.Dispatch<React.SetStateAction<UpsertAlbumForm>>;
+  handleUpsertAlbum: (event: React.FormEvent<HTMLFormElement>) => void;
   availableMemories: Memory[];
   familyMembers: FamilyMember[];
   isLoading: boolean;
   back: () => void;
+  isEdit?: boolean;
 };
 
 export function AlbumMemoriesSelector({
@@ -31,8 +32,10 @@ export function AlbumMemoriesSelector({
   isLoading,
   availableMemories,
   familyMembers,
-  handleCreateAlbum,
+  handleUpsertAlbum,
+  isEdit,
 }: MemoriesSelectorStepProps) {
+  const submitButtonLabel = isEdit ? "Update Album" : "Create Album";
   const router = useRouter();
   const queryParams = useParams<{ familyMembers: string }>();
 
@@ -99,7 +102,7 @@ export function AlbumMemoriesSelector({
       return;
     }
 
-    handleCreateAlbum(event);
+    handleUpsertAlbum(event);
   }
 
   useEffect(() => {
@@ -158,7 +161,7 @@ export function AlbumMemoriesSelector({
             {isLoading ? (
               <Loader2 size={24} className="animate-spin" />
             ) : (
-              "Create Album"
+              submitButtonLabel
             )}
           </Button>
         </footer>

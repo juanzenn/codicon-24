@@ -1,4 +1,4 @@
-import { AlbumForm } from "@/components/albums/create-album-form";
+import { AlbumForm } from "@/components/albums/upsert-album-form";
 import PageHeader from "@/components/page-header";
 
 import { getCurrentUser } from "@/lib/user";
@@ -6,6 +6,7 @@ import { Prisma } from "@prisma/client";
 import { Session } from "next-auth";
 import { db } from "@/lib/db";
 import { AlbumsGrid } from "@/components/albums/albums-grid";
+import { Button } from "@/components/ui/button";
 
 export type AlbumWithMemories = Prisma.AlbumGetPayload<{
   include: {
@@ -67,11 +68,19 @@ export default async function AlbumsPage({ searchParams }: AlbumPageProps) {
       />
 
       <section className="mt-6">
-        <AlbumForm memories={memories} familyMembers={familyMembers} />
+        <AlbumForm memories={memories} familyMembers={familyMembers}>
+          <Button>
+            <span>Create album</span>
+          </Button>
+        </AlbumForm>
       </section>
 
       <section className="mt-6">
-        <AlbumsGrid albums={albums} />
+        <AlbumsGrid
+          familyMembers={familyMembers}
+          memories={memories}
+          albums={albums}
+        />
       </section>
     </div>
   );

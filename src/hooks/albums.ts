@@ -1,4 +1,4 @@
-import { CreateAlbumForm } from "@/app/validation/albums";
+import { UpsertAlbumForm } from "@/app/validation/albums";
 import { API_ROUTES, api } from "@/lib/api";
 import { useMutation } from "@tanstack/react-query";
 
@@ -6,7 +6,7 @@ const endpoints = API_ROUTES.albums;
 
 export function useCreateAlbum() {
   return useMutation({
-    mutationFn: async (form: CreateAlbumForm) => {
+    mutationFn: async (form: UpsertAlbumForm) => {
       return api.post(endpoints.create, form);
     },
   });
@@ -14,7 +14,7 @@ export function useCreateAlbum() {
 
 export function useUpdateAlbum() {
   return useMutation({
-    mutationFn: async (form: CreateAlbumForm & { id: string }) => {
+    mutationFn: async (form: UpsertAlbumForm & { id: string }) => {
       return api.put(endpoints.update(form.id), form);
     },
   });

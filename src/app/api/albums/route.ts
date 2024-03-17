@@ -1,4 +1,4 @@
-import { CreateAlbumForm } from "@/app/validation/albums";
+import { UpsertAlbumForm } from "@/app/validation/albums";
 import { db } from "@/lib/db";
 import { handleApiError } from "@/lib/error.server";
 import { getCurrentUser } from "@/lib/user";
@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
     const user = await getCurrentUser();
     if (!user || !user.id) throw new Error("Unauthorized");
 
-    const body: CreateAlbumForm = await req.json();
+    const body: UpsertAlbumForm = await req.json();
 
     const newAlbum = await db.album.create({
       data: {

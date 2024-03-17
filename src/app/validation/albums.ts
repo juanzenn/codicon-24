@@ -13,11 +13,11 @@ export const selectMemoriesSchema = z.object({
   memories: z.array(z.string()).min(1, "Select at least one memory"),
 });
 
-export const createAlbumSchema = z.object({
+export const upsertAlbumSchema = z.object({
   details: albumDetailsSchema,
   selectedMemories: selectMemoriesSchema,
 });
 
 export type AlbumDetailsForm = z.infer<typeof albumDetailsSchema>;
-export type CreateAlbumForm = z.infer<typeof createAlbumSchema>;
+export type UpsertAlbumForm = z.infer<typeof upsertAlbumSchema>;
 export type SelectMemories = z.infer<typeof selectMemoriesSchema>;
