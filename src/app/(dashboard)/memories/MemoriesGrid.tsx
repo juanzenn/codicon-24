@@ -7,10 +7,11 @@ import { useDeleteMemory } from "@/hooks/memories";
 import { handleReactQueryError } from "@/lib/error";
 import { MemoryWithFamilyMembersNames } from "@/lib/types";
 import { getFormattedDate } from "@/lib/utils";
-import { Calendar, Eye, User, Users2 } from "lucide-react";
+import { Calendar, Eye, FileDown, User, Users2 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { startTransition } from "react";
+import { saveAs } from "file-saver";
 
 type MemoriesGridProps = {
   memories: MemoryWithFamilyMembersNames[];
@@ -38,6 +39,14 @@ export default function MemoriesGrid({ memories }: MemoriesGridProps) {
     };
   };
 
+  async function handleDownloadMemory(memoryId: string, fileUrl: string) {
+    const response = await fetch(fileUrl);
+    const blob = await response.blob();
+    const extension = blob.type.split("/")[1];
+
+    saveAs(blob, `${memoryId}.${extension}`);
+  }
+
   return (
     <div className="grid grid-cols-4 gap-8">
       {memories.map((memory) => (
@@ -56,6 +65,15 @@ export default function MemoriesGrid({ memories }: MemoriesGridProps) {
                   <Eye size={16} className="flex-shrink-0" />
                 </Button>
               </ViewMemory>
+
+              <Button
+                onClick={() =>
+                  handleDownloadMemory(memory.id, memory.fileUrl ?? "")
+                }
+                variant="ghost"
+              >
+                <FileDown size={16} className="flex-shrink-0" />
+              </Button>
 
               <DeleteModal
                 title="Are you sure?"
