@@ -50,7 +50,7 @@ const INITIAL_ALBUM_FORM = {
   },
 } satisfies CreateAlbumForm;
 
-export function CreateAlbumForm({ familyMembers, memories }: AlbumFormProps) {
+export function AlbumForm({ familyMembers, memories }: AlbumFormProps) {
   const router = useRouter();
   const { mutate: createAlbum, isPending: isCreatingAlbum } = useCreateAlbum();
   const [isPendingTransition, startTransition] = React.useTransition();

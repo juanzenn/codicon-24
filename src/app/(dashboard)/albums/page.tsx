@@ -1,5 +1,4 @@
-import { AlbumsTable } from "@/components/albums/albums-table";
-import { CreateAlbumForm } from "@/components/albums/create-album-form";
+import { AlbumForm } from "@/components/albums/create-album-form";
 import PageHeader from "@/components/page-header";
 
 import { getCurrentUser } from "@/lib/user";
@@ -62,11 +61,11 @@ export default async function AlbumsPage({ searchParams }: AlbumPageProps) {
       />
 
       <section className="mt-6">
-        <CreateAlbumForm memories={memories} familyMembers={familyMembers} />
+        <AlbumForm memories={memories} familyMembers={familyMembers} />
       </section>
 
       <section className="mt-6">
-        <AlbumsTable albums={albums} familyMembers={familyMembers} />
+        <h1>Work in progress</h1>
       </section>
     </div>
   );
