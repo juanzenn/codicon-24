@@ -6,6 +6,7 @@ import { LogOut, MenuIcon } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import React from "react";
 import { Button } from "./ui/button";
 import { Popover, PopoverTrigger } from "./ui/popover";
 
@@ -17,6 +18,7 @@ const MENU_ITEMS = [
 
 export default function Menu() {
   const pathname = usePathname();
+  const [isOpen, setIsOpen] = React.useState(false);
 
   return (
     <>
@@ -70,7 +72,7 @@ export default function Menu() {
           Heritage Keeper
         </Link>
 
-        <Popover>
+        <Popover open={isOpen} onOpenChange={setIsOpen}>
           <PopoverTrigger>
             <Button variant="ghost">
               <MenuIcon size={24} className="text-primary" />
@@ -82,7 +84,7 @@ export default function Menu() {
             align="end"
             sideOffset={8}
           >
-            <ul className="flex flex-col justify-start gap-2 py-2">
+            <ul className="w-full flex flex-col justify-start gap-2 py-2">
               {MENU_ITEMS.map(({ href, label }, i) => {
                 const isSelected = pathname === href;
 
@@ -91,11 +93,12 @@ export default function Menu() {
                     key={`${label}-${i}`}
                     href={href}
                     className="w-full text-left"
+                    onClick={() => setIsOpen(false)}
                   >
                     <li
                       key={label}
                       className={cn(
-                        "font-medium p-4 py-2 rounded-lg hover:bg-primary/80 hover:text-primary-foreground transition-colors cursor-pointer",
+                        "font-medium w-full p-4 py-2 rounded-lg hover:bg-primary/80 hover:text-primary-foreground transition-colors cursor-pointer",
                         isSelected && "bg-primary text-primary-foreground",
                       )}
                     >
