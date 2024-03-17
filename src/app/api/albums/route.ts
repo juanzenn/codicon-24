@@ -11,8 +11,6 @@ export async function POST(req: NextRequest) {
 
     const body: CreateAlbumForm = await req.json();
 
-    console.log(body);
-
     const newAlbum = await db.album.create({
       data: {
         title: body.details.title,

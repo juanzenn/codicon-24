@@ -121,7 +121,7 @@ export function AlbumMemoriesSelector({
           />
         </div>
 
-        <div className="grid grid-cols-4 gap-8 space-y-1">
+        <div className="grid grid-cols-2 gap-4 space-y-1">
           {availableMemories.map((memory) => (
             <div
               onClick={() => handleToggleMemory(memory.id)}
@@ -138,9 +138,9 @@ export function AlbumMemoriesSelector({
 
               <div
                 className={cn(
-                  "absolute hidden w-full h-full top-0 left-0 bg-black/5 backdrop-blur-[1px] transition-all",
+                  "absolute hidden w-full h-full top-0 left-0 bg-gray-400/45 border-2 border-transparent backdrop-blur-[1px] rounded-md transition-all",
                   album.selectedMemories.memories.includes(memory.id) &&
-                    "flex justify-center items-center",
+                    "flex justify-center items-center border-primary",
                 )}
               >
                 <Check size={48} />
@@ -150,7 +150,7 @@ export function AlbumMemoriesSelector({
         </div>
 
         <footer className="flex gap-6">
-          <Button onClick={back} className="w-full" variant="default">
+          <Button onClick={back} className="w-full" variant="ghost">
             Back
           </Button>
 
