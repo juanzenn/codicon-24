@@ -3,7 +3,7 @@ import { Memory } from "@prisma/client";
 import { Calendar, Edit2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getFormattedDate } from "@/lib/utils";
-import { DeleteMemoryModal } from "@/components/DeleteMemoryModal";
+import { DeleteModal } from "@/components/DeleteModal";
 import { useDeleteMemory } from "@/hooks/memories";
 import Image from "next/image";
 import { toast } from '@/components/ui/use-toast';
@@ -51,7 +51,7 @@ export default function MemoriesGrid({ memories }: MemoriesGridProps) {
                             <Calendar /> <span>{getFormattedDate(memory.date)}</span>{" "}
                         </div>
                         <div className="flex">
-                            <DeleteMemoryModal
+                            <DeleteModal
                                 title="Are you sure?"
                                 description="This action cannot be undone. This will permanently delete your
                                 memory and remove it from our servers."

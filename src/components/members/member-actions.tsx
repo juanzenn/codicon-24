@@ -6,6 +6,7 @@ import React from "react";
 import { Button } from "../ui/button";
 import { toast } from "../ui/use-toast";
 import { UpdateMember } from "./update-member";
+import { DeleteModal } from "../DeleteModal";
 
 type Props = {
   member: FamilyMember;
@@ -14,26 +15,24 @@ type Props = {
 export default function MemberActions({ member }: Props) {
   const router = useRouter();
 
-  const { mutate: deleteMember, isPending: deletingMember } = useDeleteMember();
+  const { mutateAsync: deleteMember, isPending: deletingMember } = useDeleteMember();
 
   const [pendingTransition, startTransition] = React.useTransition();
 
   function handleDeleteMember(memberId: string) {
-    if (confirm("Are you sure you want to delete this member?")) {
-      deleteMember(memberId, {
-        onSuccess: () => {
-          startTransition(() => {
-            router.refresh();
-          });
+    return () => deleteMember(memberId, {
+      onSuccess: () => {
+        startTransition(() => {
+          router.refresh();
+        });
 
-          toast({
-            title: "Member deleted",
-            description: `The member "${member.name}" has been deleted.`,
-            variant: "success",
-          });
-        },
-      });
-    }
+        toast({
+          title: "Member deleted",
+          description: `The member "${member.name}" has been deleted.`,
+          variant: "success",
+        });
+      },
+    });
   }
 
   const isLoading = pendingTransition || deletingMember;
@@ -50,15 +49,7 @@ export default function MemberActions({ member }: Props) {
         </Button>
       </UpdateMember>
 
-      <Button
-        disabled={isLoading || member.relationship === "Myself"}
-        variant="ghost"
-        size="icon"
-        onClick={() => handleDeleteMember(member.id)}
-        className="hover:bg-destructive hover:text-destructive-foreground"
-      >
-        <Trash2 size={16} />
-      </Button>
+      <DeleteModal title="Are you sure you want to delete this member?" description="This action is not reversible" disabled={member.relationship === "Myself"} onConfirm={handleDeleteMember(member.id)} />
     </div>
   );
 }

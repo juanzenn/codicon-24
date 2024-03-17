@@ -17,16 +17,23 @@ import { Trash2 } from "lucide-react";
 type DeleteMemoryModalProps = {
     title: string;
     description: string;
+    disabled: boolean;
     onConfirm: () => Promise<any>;
 };
 
-export function DeleteMemoryModal({
+export function DeleteModal({
     title,
     description,
+    disabled = false,
     onConfirm,
 }: DeleteMemoryModalProps) {
     const [isOpen, setIsOpen] = React.useState(false);
     const [isLoading, setIsLoading] = React.useState(false);
+
+
+    if (disabled) {
+        return <></>
+    }
 
     async function handleConfirm() {
         setIsLoading(true);
