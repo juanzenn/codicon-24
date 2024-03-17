@@ -27,6 +27,7 @@
     "@tanstack/react-table": "^8.13.2",
     "@uploadthing/react": "^6.4.0",
     "axios": "^1.6.8",
+    "browser-image-compression": "^2.0.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "date-fns": "^3.5.0",
