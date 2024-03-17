@@ -17,7 +17,7 @@ import React, { MouseEventHandler } from "react";
 type DeleteMemoryModalProps = {
   title: string;
   description: string;
-  disabled: boolean;
+  disabled?: boolean;
   onConfirm: () => Promise<any>;
 };
 
