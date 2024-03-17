@@ -1,5 +1,6 @@
-import { AlbumForm } from "@/app/validation/albums";
+import { CreateAlbumForm } from "@/app/validation/albums";
 import { handleApiError } from "@/lib/error.server";
+
 import { getCurrentUser } from "@/lib/user";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -8,32 +9,18 @@ export async function POST(req: NextRequest) {
     const user = await getCurrentUser();
     if (!user || !user.id) throw new Error("Unauthorized");
 
-    const body: AlbumForm = await req.json();
+    const body: CreateAlbumForm = await req.json();
 
-    const MEMORIES_AMOUNT = 5;
-
-    const relatedMemories = await db.memory.findMany({
-      where: {
-        familyMembers: {
-          some: {
-            ownerId: user.id,
-            id: {
-              in: body.familyMembers,
-            },
-          },
-        },
-      },
-      take: MEMORIES_AMOUNT,
-    });
+    console.log(body);
 
     const newAlbum = await db.album.create({
       data: {
-        title: body.title,
-        description: body.description,
+        title: body.details.title,
+        description: body.details.description,
         ownerId: user.id,
-        date: body.date,
+        date: body.details.date,
         memories: {
-          connect: relatedMemories.map((memory) => ({ id: memory.id })),
+          connect: body.selectedMemories.memories.map((id) => ({ id })),
         },
       },
     });

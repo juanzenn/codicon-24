@@ -10,8 +10,32 @@ export type AlbumWithFamilyMembers = Prisma.AlbumGetPayload<{
   include: { memories: { include: { familyMembers: true } } };
 }>;
 
-export default async function AlbumsPage() {
+type AlbumPageProps = {
+  searchParams: Record<string, string | undefined>;
+};
+
+export default async function AlbumsPage({ searchParams }: AlbumPageProps) {
   const user = (await getCurrentUser()) as Session["user"];
+
+  const selectedFamilyMembers = searchParams.familyMembers?.split(",") || [];
+
+  const memories =
+    (await db.memory.findMany({
+      where: {
+        AND: [
+          {
+            ownerId: user.id,
+            familyMembers: {
+              some: {
+                id: {
+                  in: selectedFamilyMembers,
+                },
+              },
+            },
+          },
+        ],
+      },
+    })) ?? [];
 
   const familyMembers = await db.familyMember.findMany({
     where: { ownerId: user.id },
@@ -38,7 +62,7 @@ export default async function AlbumsPage() {
       />
 
       <section className="mt-6">
-        <CreateAlbumForm familyMembers={familyMembers} />
+        <CreateAlbumForm memories={memories} familyMembers={familyMembers} />
       </section>
 
       <section className="mt-6">
