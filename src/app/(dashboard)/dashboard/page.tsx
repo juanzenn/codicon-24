@@ -46,8 +46,8 @@ export default async function DashboardPage() {
         </p>
       </header>
 
-      <section className="grid grid-cols-3 container gap-6">
-        <article className="py-6 px-4 border border-border rounded-lg flex flex-col">
+      <section className="grid grid-cols-1 lg:grid-cols-2 container gap-6">
+        <article className="py-6 px-4 border border-border rounded-lg flex flex-col bg-accent">
           <h2 className="font-semibold text-xl">Your Family</h2>
           <div className="py-6 gap-2 flex flex-col justify-center flex-1">
             {familyMembers.length <= 0 ? (
@@ -74,7 +74,7 @@ export default async function DashboardPage() {
           </Button>
         </article>
 
-        <article className="py-6 px-4 border border-border rounded-lg flex flex-col">
+        <article className="py-6 px-4 border border-border rounded-lg flex flex-col bg-accent">
           <h2 className="font-semibold text-xl">Your Albums</h2>
           <div className="py-6 gap-2 flex flex-col justify-center flex-1">
             {albums.length <= 0 ? (

@@ -6,6 +6,7 @@ import { ArrowLeft, ArrowRight, Info, Volume, VolumeX } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { Button } from "./ui/button";
 
 type Props = {
   memories: Prisma.MemoryGetPayload<{
@@ -70,6 +71,11 @@ export default function ImageBook({ memories }: Props) {
       >
         Heritage Keeper
       </Link>
+      <Button
+        className="fixed top-4 right-4 font-bold tracking-tighter text-xl text-accent"
+      >
+        Download Pictures
+      </Button>
 
       <button
         className="opacity-0 hover:opacity-100 transition-opacity h-full px-4"
@@ -88,7 +94,7 @@ export default function ImageBook({ memories }: Props) {
         <img
           src={currentMemory.fileUrl || ""}
           alt="Random"
-          className="h-full rounded-md shadow-md mx-auto"
+          className="h-full object-contain rounded-md shadow-md mx-auto"
           loading="eager"
         />
 
